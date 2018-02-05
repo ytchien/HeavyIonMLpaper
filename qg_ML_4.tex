@@ -6,8 +6,8 @@
 \newcommand{\pt}{$p_{T}$}
 \newcommand{\eqref}[1]{(\ref{#1})}
 \newcommand{\text}[1]{{\rm #1}}
-\newcommand{\jw}{\textsc{Jewel}}
-\newcommand{\jwpy}{\textsc{Jewel+Pythia}}
+\newcommand{\jw}{\textsc{Jewel}~}
+\newcommand{\jwpy}{\textsc{Jewel+Pythia}~}
 \newcommand{\py}{\textsc{Pythia}~}
 
 \newenvironment{changemargin}[2]{%
@@ -71,15 +71,17 @@
 
 \title{Probing heavy ion collisions using quark and gluon jet substructure}
 
-\author{Yang-Ting Chien $^{a}$ and Raghav Kunnawalkam Elayavalli $^{b}$\\
+\author{Yang-Ting Chien $^{a}$ and Raghav Kunnawalkam Elayavalli $^{b,c}$\\
 $^{a}$ Center for Theoretical Physics\\
 $~$ Massachusetts Institute of Technology, Cambridge, MA 02139\\
 $^{b}$ Department of Physics and Astronomy\\
+$~$ Wayne State University, Detroit, MI 48201\\
+$^{c}$ Department of Physics and Astronomy\\
 $~$ Rutgers, the State University of New Jersey, New Brunswick, NJ 08901
 }
 
 \abstract{
-We introduce a novel jet quenching study framework utilizing both quark-initiated jets and gluon-initiated jets as independent probes of heavy ion collisions. We perform quark gluon discrimination in proton-proton and heavy ion collisions using jet substructure techniques to exploit all the jet features. Several physics-motivated jet substructure observables including the jet mass, the radial moments, the $p_T^D$ and the pixel multiplicity are collectively examined in a multivariate analysis. In comparison, we perform the classification using machine-learning methods by training a deep convolutional neutral network on discretized jet images. Furthermore, we develop the telescoping deconstruction framework with a systematic subjet expansion to exploit the information carried by the subjets at multiple angular scales. We draw connections to the soft-drop subjet distribution and illuminate modifications of quark jets and gluon jets using Lund diagrams. The quark and gluon jet samples generated from \jwpy ~are used as an example to demonstrate our general method. We find that the classification performance goes down in the \jwpy-simulated heavy ion collisions. The information carried by the subleading subjets can be washed out due to soft event activities, a characteristic feature of the \jwpy ~simulation. Our method provides a systematically improvable framework for analyzing and comparing jet simulations and measurements in heavy ion collisions.
+We introduce a novel framework to study the phenomenon of jet quenching utilizing both quark-initiated jets and gluon-initiated jets as independent probes of heavy ion collisions. We perform quark-gluon discrimination in proton-proton and heavy ion collisions using jet substructure techniques to exploit all the jet features. Several physics-motivated jet substructure observables including the jet mass, the radial moments, the $p_T^D$ and the pixel multiplicity are collectively examined in a multivariate analysis. In comparison, we perform the classification using machine-learning methods by training a deep convolutional neutral network on discretized jet images. Furthermore, we introduce the telescoping deconstruction framework with a systematic subjet expansion to exploit the information carried by the subjets at multiple angular scales. We draw connections to the soft-drop subjet distribution and illuminate modifications of quark jets and gluon jets using Lund diagrams. The quark and gluon jet samples generated from \jwpy ~are used as an example to demonstrate our general method. We find that the classification performance worsens in the \jwpy-simulated heavy ion collisions. The information carried by the subleading subjets can be washed out due to soft event activities, a characteristic feature of the \jwpy ~simulation. Our method provides a systematically improvable framework for analyzing and comparing jet simulations and measurements in heavy ion collisions.
 }
 
 \begin{document}
