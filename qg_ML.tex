@@ -1,0 +1,453 @@
+\documentclass[notoc]{JHEP3}
+\usepackage{cite,color,psfrag,url,latexsym,graphicx,epstopdf,slashed,xspace,hyperref,enumitem,lineno}
+\let\normalcolor\relax
+
+\newcommand{\nn}{\nonumber \\}
+\newcommand{\pt}{$p_{T}$}
+\newcommand{\eqref}[1]{(\ref{#1})}
+\newcommand{\text}[1]{{\rm #1}}
+\newcommand{\jw}{\textsc{Jewel}~}
+\newcommand{\jwpy}{\textsc{Jewel+Pythia}~}
+\newcommand{\py}{\textsc{Pythia}~}
+
+\DeclareRobustCommand{\Sec}[1]{Sec.~\ref{#1}}
+\DeclareRobustCommand{\Secs}[2]{Secs.~\ref{#1} and \ref{#2}}
+\DeclareRobustCommand{\Secss}[3]{Secs.~\ref{#1}, \ref{#2} and \ref{#3}}
+\DeclareRobustCommand{\App}[1]{App.~\ref{#1}}
+\DeclareRobustCommand{\Tab}[1]{Table~\ref{#1}}
+\DeclareRobustCommand{\Tabs}[2]{Tables~\ref{#1} and \ref{#2}}
+\DeclareRobustCommand{\Fig}[1]{Fig.~\ref{#1}}
+\DeclareRobustCommand{\Figs}[2]{Figs.~\ref{#1} and \ref{#2}}
+\DeclareRobustCommand{\Figss}[3]{Figs.~\ref{#1}, \ref{#2} and \ref{#3}}
+\DeclareRobustCommand{\Eq}[1]{Eq.~(\ref{#1})}
+\DeclareRobustCommand{\Eqs}[2]{Eqs.~(\ref{#1}) and (\ref{#2})}
+\DeclareRobustCommand{\Eqss}[3]{Eqs.~(\ref{#1}), (\ref{#2}), and (\ref{#3})}
+\DeclareRobustCommand{\Ref}[1]{Ref.~\cite{#1}}
+\DeclareRobustCommand{\Refs}[2]{Refs.~\cite{#1} and \cite{#2}}
+
+\newenvironment{changemargin}[2]{%
+  \begin{list}{}{%
+    \setlength{\topsep}{0pt}%
+    \setlength{\leftmargin}{#1}%
+    \setlength{\rightmargin}{#2}%
+    \setlength{\listparindent}{\parindent}%
+    \setlength{\itemindent}{\parindent}%
+    \setlength{\parsep}{\parskip}%
+  }%
+  \item[]}{\end{list}}
+
+\def\PlusBreak#1{+ \nonumber \\          % splits line with plus sign
+          &&  \hphantom{#1} \! \null   +}
+\def\MinusBreak#1{- \nonumber \\         % splits line with minus sign
+          &&  \hphantom{#1} \!  \null  -}
+\def\TimesBreak#1{\times \nonumber \\    % splits lines with times sign
+          &&  \hphantom{#1} \!  \null  \times}
+
+% The following macros allow line splits allowing for line spacing adjustments
+% 12 is line spacing e.g. 1pt plus 4pt and #2 is the hphantom
+\def\PlusBreakAdjust#1#2{+ \nonumber \\ [#1]      % splits line with plus sign
+          &&  \hphantom{#2} \! \null  +}
+\def\MinusBreakAdjust#1#2{- \nonumber \\ [#1]     % splits line with minus sign
+          &&  \hphantom{#2} \!  \null -}
+\def\TimesBreakAdjust#1#2{\times \nonumber \\[#1] %splits lines with times sign
+          &&  \hphantom{#2} \!  \null  \times}
+
+\def\eqn#1{Eq.~(\ref{eq:#1})}
+\def\Eqn#1{Eq.~(\ref{eq:#1})}
+\def\eqns#1#2{Eqs.~(\ref{eq:#1}) and~(\ref{eq:#2})}
+\def\Eqns#1#2{Eqs.~(\ref{eq:#1}) and~(\ref{eq:#2})}
+\def\fig#1{Figure~{\ref{fig:#1}}}
+%\renewcommand{\sec}[1]{Section~\ref{sec:#1}}
+\newcommand{\ssec}[1]{Section~\ref{ssec:#1}}
+\newcommand{\be}{\begin{equation}}
+\newcommand{\ee}{\end{equation}}
+\newcommand{\cmb}{\begin{changemargin}}
+\newcommand{\cme}{\end{changemargin}}
+\newcommand{\bea}{\begin{eqnarray}}
+\newcommand{\eea}{\end{eqnarray}}
+% \newcommand{\bea}{\begin{align}}
+% \newcommand{\eea}{\end{align}}
+
+\title{Probing heavy ion collisions using quark and gluon jet substructure}
+
+\author{Yang-Ting Chien $^{a}$ and Raghav Kunnawalkam Elayavalli $^{b,c}$\\
+$^{a}$ Center for Theoretical Physics\\
+$~$ Massachusetts Institute of Technology, Cambridge, MA 02139\\
+$^{b}$ Department of Physics and Astronomy\\
+$~$ Wayne State University, Detroit, MI 48201\\
+$^{c}$ Department of Physics and Astronomy\\
+$~$ Rutgers, the State University of New Jersey, New Brunswick, NJ 08901
+}
+
+\abstract{
+We study the phenomenon of jet quenching utilizing quark and gluon jet substructures as independent probes of heavy ion collisions. We exploit jet features to highlight the differences between quark jets and gluon jets and how differently they are modified in the medium. We perform quark-gluon and proton-heavy ion discriminations for jets in proton-proton and heavy ion collisions. Several physics-motivated jet substructure observables including the jet mass, the radial moments, the $p_T^D$ and the pixel multiplicity are examined in a multivariate analysis. In comparison, we perform the classifications using image-recognition methods by training a deep convolutional neutral network on jet images. To systematically extract jet substructure information, we develop the telescoping deconstruction framework exploiting subjet kinematics at multiple angular scales. We draw connections to the soft-drop subjet distribution and illuminate jet modifications using Lund diagrams. The quark and gluon jet samples generated from \jwpy ~are used as an example to establish our general method. We find that the quark gluon discrimination performance worsens in the \jwpy simulated heavy ion collisions. The information carried by subleading subjets can be washed out due to soft event activities, a characteristic feature of the \jwpy ~simulation. Our work suggests a systematically improvable framework for testing and comparing jet simulations and measurements in heavy ion collisions.
+}
+
+\begin{document}
+
+\section{Introduction}
+\label{sec:intro}
+
+The jet quenching phenomenon observed in experiments at the Relativistic Heavy Ion Collider (RHIC) \cite{Adcox:2001jp,Adler:2002xw,Adcox:2004mh,Arsene:2004fa,Back:2004je,Adams:2005dq}
+and the Large Hadron Collider (LHC)~\cite{Aamodt:2010jd,Aad:2010bu,Chatrchyan:2011sx,Aamodt:2011vg,CMS:2012aa,Chatrchyan:2012nia,Abelev:2012hxa,Chatrchyan:2012gt,Aad:2012vca,
+Abelev:2013kqa,Aad:2013sla,Chatrchyan:2013exa,Aad:2014bxa,Khachatryan:2014bva,
+Adam:2015ewa,Adam:2015doa,Aad:2015bsa,Khachatryan:2015lha,Aad:2015wga,
+Khachatryan:2016odn,Khachatryan:2016xxp,Sirunyan:2016znt,Khachatryan:2016ypw,
+Sirunyan:2017isk,Sirunyan:2017oug,Sirunyan:2017lzi,Sirunyan:2017jic,Sirunyan:2017xss,Sirunyan:2017qhf}
+has since become an essential hard probe of the strongly interacting medium produced in heavy ion collisions (see ~\cite{Connors:2017ptx} for a review on heavy ion jet measurements). The dramatic suppression of hadron and jet cross sections is understood using the medium-induced energy loss picture \cite{Gyulassy:1993hr,Wang:1994fx,Zakharov:1996fv,Zakharov:1997uu,Baier:1996kr,Baier:1998kq,
+Gyulassy:2000er,Gyulassy:2000fs,Wiedemann:2000za,Wang:2001ifa,
+Arnold:2001ba,Arnold:2001ms,Arnold:2002ja,Casalderrey-Solana:2014bpa}. In order to quantitatively extract key features of the jet-medium interaction and the underlying medium dynamics, a precise understanding of the redistribution of jet energy in heavy ion collisions is becoming essential. With the proliferation of accurate comparisons between theoretical calculations and measurements \cite{Chatrchyan:2013kwa,Khachatryan:2016tfj,Chatrchyan:2012gw,Aad:2014wha,Chatrchyan:2014ava,Aaboud:2017bzv,Sirunyan:2018qec,Khachatryan:2016erx,
+Acharya:2017goa,Sirunyan:2017bsd,CMS:2017xdn}, the field of heavy ion jet physics has entered the era of precision jet substructure and jet cross section studies.
+
+Jet substructure measurements provide concrete and consistent physics information of the modification of jets in a heavy ion environment. From the measurements of the jet shape \cite{Ellis:1992qq,Chatrchyan:2013kwa,Khachatryan:2016tfj,Seymour:1997kj,Li:2011hy,Li:2012bw,Vitev:2008rz,Vitev:2009rd} and jet fragmentation function \cite{Procura:2009vm,Chatrchyan:2012gw,Aad:2014wha,Chatrchyan:2014ava,Aaboud:2017bzv,Sirunyan:2018qec}, we have established that both the transverse and longitudinal momentum distributions inside jets are significantly modified. Since jet substructure depends strongly on the partonic origin of jets \cite{Gallicchio:2011xq,Gallicchio:2012ez,Chien:2015ctp,Chien:2014nsa}, a change of the fraction of quark-initiated jets and gluon-initiated jets may contribute to all substructure modifications observed in experiments. It has recently been realized that an increase of the quark jet fraction in heavy ion collisions can constitute the narrowing of jet cores suggested in various inclusive jet substructure measurements~\cite{Chien:2015hda}. With jet samples consisting of different quark and gluon jet fractions, for example comparing inclusive jet and photon-tagged jet measurements, one can disentangle the effect on jet substructure modifications due to the change of quark and gluon jet fractions caused by jet-medium interactions. This then allows one to focus on studying how differently quark and gluon jets are modified and use them as independent jet quenching probes. Note that the above jet modification picture implies that, with the high-purity quark jets in photon-tagged jet samples, the narrowing effect of jet cores should decrease. On the other hand, certain jet quenching models predict a universal narrowing of jet cores \cite{KunnawalkamElayavalli:2017hxo,Milhano:2017nzm,Casalderrey-Solana:2016jvj,Brewer:2017fqy} and emphasize the contributions from medium responses \cite{Tachibana:2017syd}. Quark and gluon jets will provide the opportunity for studying how differently the medium responds to different probes.
+
+The use of quark jets and gluon jets as different hard probes of heavy ion collisions is closely related to the tagging of these two probes, which is an outstanding problem \cite{Gras:2017jty,Frye:2017yrw}. The lowest-order feature that separates quark jets from gluon jets is the different color charges carried by the jet-initiating partons. The Casimir factors of quark jets and gluon jets are $C_F = 4/3$ and $C_A=3$ respectively, and the larger color charge of gluons results in the broader spread of the radiations inside gluon jets. Extra distinctive features can be included to improve the tagging by combining various jet substructure variables in a multivariate analysis, and advances in machine learning techniques have recently been incorporated which helps achieving higher tagging efficiency \cite{Komiske:2016rsd}.
+
+Besides the conventional wisdom in jet quenching studies by directly comparing jets in proton-proton and heavy ion collisions, we will systematically study the tagging of quark and gluon jets in both proton-proton and lead-lead collisions making full use of their substructure information. This indirect, complimentary approach studies the modification of the differences between quark jets and gluon jets which disentangles modifications of their common features. By first comparing probes in the same collision system, it can also help reduce the systematic uncertainty in experimental measurements. We will demonstrate our general method using Monte Carlo simulations and take \jwpy as a concrete example \cite{Zapp:2013zya,KunnawalkamElayavalli:2016ttl}. However, the method is easily applicable to other heavy ion jet simulations \cite{} and experimental data as well.
+
+We will use three classes of methods and gain insights from comparing their performances. We combine in a multivariate analysis five physics-motivated and representative jet substructure variables which are effective in quark gluon discrimination \cite{Gallicchio:2012ez}. They include the jet mass, two radial moments including the girth, the $p_T^D$ and the pixel multiplicity. Subsets of the variables are combined and studied in a multilayer perceptron (MLP) with two hidden layers to extract correlations among the variables. We also employ a modern 2-dimensional image recognition technique involving a deep convolutional neural network (DCNN). The network is trained on discretized images of quark jets and gluon jets on pseudo rapidity-azimuthal angle $(\eta,\phi)$ plane which forms a representation of the jet energy distribution. Each jet image undergoes standard pre-processing as described in \cite{deOliveira:2015xxd}. Moreover, in order to systematically extract the complete jet substructure information, we apply the newly developed telescoping deconstruction (TD) method using subjets with multiple angular resolutions. At each order $N$, TD deconstructs a jet into its fragmentation basis with regard to $N$ axis which are defined using the winner-take-all (WTA) recombination scheme \cite{Bertolini:2013iqa}. The corresponding subjet expansion can be truncated at any finite order which allows us to order-by-order examine the information carried by subleading subjets. These three methods are used in discriminating quark and gluon jets, as well as discriminating jets in proton-proton and heavy ion collisions. We will see that new insights can be gained from comprehensively comparing different probes across different collision systems.
+
+Because of the huge underlying event background in heavy ion collisions, jets with smaller radii are more reliably reconstructed and theoretically understood \cite{Dasgupta:2014yra,Chien:2015cka,Becher:2015hka,Kang:2016mcy}. In order to minimize the background contamination within the experimentally allowed angular resolution, we study jets reconstructed using the anti-$k_T$ algorithm \cite{Cacciari:2008gp} with $R=0.4$. Within the catchment area of jets the significant background radiation needs to be subtracted before meaningful jet observable measurements can be made. Note that multiple jet substructure observables are analyzed simultaneously therefore a constituent-level, observable-independent background subtraction method \cite{Berta:2014eza,Komiske:2017ubm} is preferred. Furthermore, various jet grooming techniques \cite{Ellis:2009su,Ellis:2009me,Krohn:2009th,Dasgupta:2013ihk,Larkoski:2014wba} systematically remove soft radiation and highlight contributions from hard, collinear particles to jet observables. We will draw connections from telescoping deconstruction to the soft-drop groomed momentum sharing $z_g$ and groomed jet radius $r_g$ variables \cite{Larkoski:2014wba} and discuss qualitatively new jet substructure observables within the telescoping deconstruction framework. We will also use Lund diagrams \cite{Andersson1989,Salam:2016yht} to represent jets and illustrate the regions of phase space in the context of soft drop grooming procedure.
+
+The rest of the paper is organized as follows. In Sec.~\ref{sec:sample} we describe the jet samples we generate using the \jwpy ~simulation. In Sec.~\ref{sec:qg} we give details about the multivariate analysis, the jet image, and the telescoping deconstruction methods, as well as distributions of jet substructure observables. In Sec.~\ref{sec:results} we compare the performances of the methods and discuss the physical interpretations. In Sec.~\ref{sec:lund} we use Lund diagrams to illustrate the regions of phase space separated by the soft-drop procedure. We conclude in Sec.~\ref{sec:conc} and raise awareness of such methods by giving an outlook of future studies.
+
+% Different simulations may produce differently characteristic quark and gluon jets, and this method can help compare simulations and be extended to using the data from experiments.
+
+
+\section{Quark and Gluon Jet Samples}
+\label{sec:sample}
+
+To use quark and gluon jets as independent probes of heavy ion collisions, we need to first define and identify the respective probes. In this paper, we define jet flavor based on the parton from hard scattering which initiates the parton shower evolution. We use the \jwpy Monte Carlo simulation to generate proton-proton and central (0-20\%) lead-lead collisions at $\sqrt{s}=2.76$ TeV using the standard setup \cite{Zapp:2013zya}. \jwpy ~is a perturbative QCD Monte Carlo framework for simulating jets in proton-proton and heavy ion collisions. We use prompt photon production channels \cite{KunnawalkamElayavalli:2016ttl} $q +\gamma$ and $g +\gamma$ to generate quark and gluon jet samples, respectively, as an attempt to prepare two sets of jets with distinct quark and gluon jet fractions. It is possible to construct jet samples by performing hard process and kinematical selections (such as dijet v.s. $Z$+jet) to enhance either the gluon or the quark jet fraction. This can then be directly applied to analyze other jet simulations and experimental data in the future.
+
+In each event, jets are reconstructed using the anti-$k_{t}$ algorithm~\cite{Cacciari:2008gp} implemented in \textsc{FastJet}~\cite{Cacciari:2011ma} with $R = 0.4$. We impose the following kinematic cuts,
+\begin{equation}
+    p^{\gamma}_T > 100~{\rm GeV}, ~~~~ p^{\rm jet}_T > 50~{\rm GeV}, ~~~~ |\eta^{\rm jet}|<2, ~~~~\Delta \phi_{\gamma, {\rm jet}} > 2\pi/3\;,
+\end{equation}
+where $p_T$, $\eta$ and $\phi$ are the transverse momentum, pseudo rapidity and azimuthal angle, respectively, to select high $p_T$ jets recoiling against the prompt photon. The medium-induced energy loss in central PbPb collisions in \jw is calculated based on a medium model consisting of thermal scattering centers undergoing Bjorken expansion. The medium formation time $\tau_\text{i}=0.6 $ fm and initial temperature $T_\text{i}=485$ MeV are set based on the hydrodynamic calculation~\cite{Shen:2012vn,Shen:2014vra}. We use the \textsc{CTEQ6LL} \cite{Pumplin:2002vw} and the \textsc{EPS09}~\cite{Eskola:2009uj} parton distribution functions in \textsc{LHApdf}~\cite{Whalley:2005nh}. We include recoil partons in our PbPb simulations that originate from elastic and inelastic scattering with thermal scattering centers due to interactions with propagating hard scattered partons. It was shown that recoil contributions are important in \jwpy to accurately describe several qualitative features in jet substructure modifications measured at the LHC \cite{KunnawalkamElayavalli:2017hxo,Milhano:2017nzm}. In order to remove the thermal component of the recoil partons, we adopt the background subtraction procedure introduced in \cite{KunnawalkamElayavalli:2017hxo,Milhano:2017nzm}. The \jw simulation produces HepMC~\cite{} files which are processed using a \textsc{Rivet} analysis framework~\cite{} to reconstruct the jets.
+
+%For a detailed description of the MC implementation of the jet production and its elastic/inelastic interactions with the scattering centers along with the LPM effect in \jw, please refer~\cite{}. The primary event collection was split into two halves, with one utilized for training the model(s) and the other for testing \textcolor{red}{additional to a di-jet sample, with a mixture of quark and gluon jets utilized for further evaluation of the model performance}. The question of what constitutes a "quark" or "gluon" jet is a topic of current discussion~\cite{} but for this paper, we choose the conventional definition of a quark/gluon jet with its progenitor hard scattered parton. There are two operational modes of generating \jw events in heavy ion collisions; with and without including the recoil partons, those originating from interactions of the propagating hard scattered parton with the scattering centers. In recent studies, \jw with recoils was shown to accurately reproduce several of the important qualitative features in jet structure modifications measured by LHC experiments with the addition of background subtraction techniques introduced here~\cite{KunnawalkamElayavalli:2017hxo,Milhano:2017nzm}. The jet-background in \jw consists of the scattering center's thermal momenta i.e, their momentum before the interaction. In studying these different jet collections, we extract the dependence of the tagging on key operations performed on jets in data, primarily discretization and background subtraction and discuss their impact on the physics.
+
+To emulate finite detector effects on the jet angular resolution, we discretize jets using $\eta-\phi$ grids of size $0.08 \times 0.08$ respecting the current angular resolution of hadronic calorimeter at the LHC. To study how such discretization as well as background subtraction affect the analysis, we use the following three different sets of jets in heavy ion collisions, all with the medium recoil contributions,
+\begin{itemize}
+	\item neither discretization nor background subtraction
+	\item with discretization but without background subtraction
+	\item with discretization and the GridSub \cite{KunnawalkamElayavalli:2017hxo} background subtraction.
+\end{itemize}
+For jets in proton-proton collisions, we use the sets of jet samples with or without discretization. In experiments, the fluctuating, underlying event background is subtracted via specific background subtraction techniques. Since \jw does not produce full underlying events in quenched samples, we can not directly apply those background subtraction methods. With the application of the grid subtraction (GridSub) technique, the collection of jets represent ideally subtracted jets in experiment. This enables us to focus on and highlight the effects of jet quenching, as opposed to additional, nontrivial smearing effects.
+
+\section{Quark and Gluon Jet Substructure}
+\label{sec:qg}
+\begin{figure}[t]
+	   \centering
+	   \includegraphics[width=0.6\textwidth]{plots/qg_HI}
+	   \caption{Illustration of the interplay between jet quenching (vertical) and quark gluon discrimination (horizontal). }
+	   \label{fig:quenching_discrimination}
+\end{figure}
+
+We use quark jets and gluon jets as different probes of heavy ion collisions and compare their modification patterns. In doing so one attempts to identify qualitatively different jet features which are sensitive to aspects of quark and gluon jet quenching mechanisms. Such direct approaches are closely related to the discrimination of quark and gluon jets, where the goal is to exploit jet features which show differences between them. The idea is that one can compare quark and gluon jet substructures in the same collision system and use their differences as a way to quantify the jet modification. New insights can be gained by putting jet substructures in multiple contexts. This can also help disentangle jet quenching effects on common features between quark and gluon jets, most notably the jet transverse momentum, and cancel systematic uncertainties in experiments. A schematic illustration of possible ways of exploiting quark and gluon jet substructure is shown in Fig:~\ref{fig:quenching_discrimination} where the interplay between quenching (vertical arrows) and the jet flavor difference (horizontal arrows) are highlighted.
+
+Quark gluon discrimination has been studied extensively in the recent past, particularly in higher kinematic regimes at the LHC in order to highlight standard model and beyond the standard model signatures \cite{}. With powerful tools for analyzing multiple variables, a large number of physics-motivated jet substructure observables have been examined systematically to identify the most useful selections \cite{Gallicchio:2011xq,Gallicchio:2012ez}. On the other hand, using modern machine-learning, image recognition techniques to process the raw input of the angular distribution of jet energy as jet images \cite{Komiske:2016rsd}, the discrimination performance has been shown to significantly improve at high transverse momentum. This suggests that additional jet features have been identified by the deep neural network to help the tagging task. We use both methods to gain insights on how jet quenching is manifested in these two jet representations. Furthermore, we develop the telescoping deconstruction framework which represents the jet information using subjets with varying angular resolution. It introduces an organization in the decomposition of jet substructure which allows order-by-order examination of jet fragmentation features. More details about the telescoping deconstruction algorithm and examples comparing QCD, W and top jets are provided in the Appendix.
+
+\subsection{Physics-motivated Multivariate Analysis}
+\label{sec:mva}
+
+\begin{figure}[h]
+	   \centering
+	   \includegraphics[width=0.48\textwidth]{plots/JEWEL_pp_pbpb020_jetMass}
+	   \includegraphics[width=0.48\textwidth]{plots/JEWEL_pp_pbpb020_firstRadialMoment}
+	   \includegraphics[width=0.48\textwidth]{plots/JEWEL_pp_pbpb020_halfRadialMoment}
+	   \includegraphics[width=0.48\textwidth]{plots/JEWEL_pp_pbpb020_pTD}
+	   \includegraphics[width=0.48\textwidth]{plots/JEWEL_pp_pbpb020_NumberjetConstituents}
+	   \caption{Distributions of the jet mass (top left), the girth or the first radial moment (top right), the half radial moment (center left), the $p^{D}_{T}$ (center right) and the pixel multiplicity (bottom) for quark (darker blue) and gluon (lighter orange) jets. The top panels of each individual distribution show the pp ones and the bottom panels correspond to central (0-20\%) PbPb collisions generated by \jwpy simulations.}
+	   \label{fig:jetdistributons_pp_pbpb}
+	\end{figure}
+
+Multivariate analyses have been successfully employed in object classification and selection by the LHC experiments \cite{} and thus are an effective, physics-motivated baseline in our study. Given a jet reconstructed using the anti-$k_{t}$ algorithm, we choose the following set of five jet substructure observables \cite{Gallicchio:2012ez} to highlight the differences between quark jets and gluon jets,
+	\begin{itemize}
+		\item Jet mass: $m = \sqrt{E^{2} - (\sum_{i\in {\rm jet}} \vec{p_i})^2}$.
+        		\item First radial moment (girth): $\sum_{i \in {\rm jet}} p^i_{T} \Delta R_{{\rm jet}, i}/p^{\rm jet}_{T}$, where $\Delta R_{{\rm jet}, i}=\sqrt{\Delta \eta^2_{{\rm jet}, i}+\phi^2_{{\rm jet}, i}}$.
+		\item 0.5 radial moment:  $\sum_{i \in {\rm jet}} p^i_{T} (\Delta R_{{\rm jet}, i})^{0.5}/p^{\rm jet}_{T}$.
+        		\item $p_{T}^{D}$: $p^{D}_{T} = \sqrt{\sum_{i \in {\rm jet}} {p^{i}_{T}}^2}/p^{\rm jet}_{T}$.
+        		\item Pixel multiplicity: the number of $(\eta,\phi)$ pixels with nonzero energy deposit. %including charged and neutral; given by the anti-k$_{t}$ algorithm
+	\end{itemize}
+
+Figure ~\ref{fig:jetdistributons_pp_pbpb} shows the distributions of the aforementioned jet observables in pp and PbPb collisions for quark (blue shaded histograms) and gluon jets (orange shaded histograms). Both pp and PbPb jets include the grid discretization. Furthermore, jets in PbPb collisions are subtracted using the GridSub background subtraction method. Note that the jet mass and radial moments are infrared and collinear (IRC) safe observables with different weights on the particle angular distributions. In vacuum, they reflect the fact that gluon jets have larger jet mass and radial moments than quark jets due to the larger color charge and Casimir color factor $C_A>C_F$. In the \jwpy-simulated PbPb collisions, for both quark and gluon jets the distributions are modified towards larger values. On the other hand, $p_T^D$ and the pixel multiplicity are IRC unsafe. We see that there is significant increase of the pixel multiplicity and decrease of the values of $p_T^D$. This is due to the presence of the increased number of soft particles inside jets from the \jw medium recoil contributions \cite{KunnawalkamElayavalli:2017hxo}.
+
+It is important to note that these observables are sensitive to the jet clustering algorithm, the minimum \pt ~cutoff of jet constituents and the background subtraction procedures employed. In order to facilitate a direct comparison between experimental data and Monte Carlo simulations, one has to either unfold the detector resolution from these observables or perform Monte Carlo simulations with the appropriate detector response. The unfolding procedure for jet observables increases in dimensionality and complexity as the correlations among observables become strong. For example, the jet mass will have to be unfolded in the 4-dimensional distribution of the generated and reconstructed jet \pt ~and mass.
+
+We combine the five jet substructure observables using a multivariate model implemented in Keras \cite{keras}, with two hidden dense layers of 10 nodes each. We use the rectified linear unit (ReLU) \cite{nair2010rectified} and sigmoid activation functions for the dense layers and the output layer, respectively. The model training utilizes the Adam optimizer \cite{adam} and the binary cross entropy loss function. We perform cross validation using Monte Carlo samples which are split into two random halves for training and testing.
+
+%increased low \pt particle multiplicity in the periphery regions of the jet leading to a broadening of the jet shape. Such an effect is captured in \jw, with the introduction of the medium induced recoils and introduces a further complexity in the question of quark vs gluon classification in PbPb.
+
+\subsection{Jet Image}
+\label{sec:image}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.45\textwidth]{plots/jewel_pp_avgQuarkJet}
+\includegraphics[width=0.45\textwidth]{plots/jewel_pp_avgGluonJet}
+\includegraphics[width=0.45\textwidth]{plots/jewel_pbpb020_avgQuarkJet}
+\includegraphics[width=0.45\textwidth]{plots/jewel_pbpb020_avgGluonJet}
+\caption{Average quark (left) and gluon (right) pre-processed jet images shown in the $\eta-\phi$ plane for pp (top) and central PbPb (bottom) collisions generated from \jw. The color scale in the z axis represents the average pixel \pt in units of GeV/c. }
+\label{fig:qgjetimages}
+\end{figure}
+
+The multivariate analysis discussed previously is a constructive approach to collect and examine the usefulness of jet features which may help distinguish quark jets from gluon jets, or jets in different collision systems. An alternative approach is to use image-recognition techniques which optimize comprehensive multivariate models and identify all possible, useful features. The radiation pattern of a jet can be quantified as an image in the $\eta-\phi$ plane of transverse momentum deposit in detector calorimeter cells, much like a digital camera. The jet image thus provides a fixed-dimensional representation of jet fragmentation. Each jet image is pre-processed \cite{deOliveira:2015xxd} by translating in the $\eta-\phi$ plane so that the highest pixel centers at the origin. Also, the image is rotated so that the principal component of the energy density is along the $\eta=0, \phi<0$ direction.
+
+Figure~\ref{fig:qgjetimages} shows the average quark (left) and gluon (right) jet images in pp (top) and central PbPb (bottom) collisions. The color of each image pixel represents the transverse momentum deposited in the pixel. We see the broader energy distribution around the center pixel for gluon jets compared to quark jets in pp collisions, and the significantly broader distributions for jets in PbPb collisions. Note that in experiment it may be very challenging to directly analyze jet images due to detector and measurement considerations. Here we mainly use the jet image approach as a useful and state-of-the-art comparison of the classification performance.
+	
+A deep convolutional neural network is implemented in Keras with the TensorFlow \cite{} backend. The neural network model consists of three convolution layers of sequentially reducing sizes, each with 8 filters followed by a max-pooling layer. The convolution layers use hyperbolic tangent activation function, and the output layer uses sigmoid activation function. The output layer is preceded by three layers, a dropout layer with a rejection score of 0.20, a dense layer with 20 nodes and an additional dropout layer with a reduced rejection score of 0.10. The additional dropout layer helps filtering less important features from previous layers and thus increases the speed and efficiency of the model training. The model is trained using the Adam optimizer with binary cross entropy loss function.
+	
+\subsection{Telescoping Deconstruction}
+\label{sec:tjet}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=.32\columnwidth]{figures/QCDjetT1_telescoped2.pdf}
+\includegraphics[width=.32\columnwidth]{figures/QCDjetT2_telescoped2.pdf}
+\includegraphics[width=.32\columnwidth]{figures/QCDjetT3_telescoped2.pdf}
+\caption{Illustration of telescoping deconstruction at T1 (left panel), T2 (middle panel) and T3 (right panel) orders for a QCD jet. The crosses are the Winner-Take-All $k_T$ axes. The straight lines are the exclusive subjet boundaries. Particles are sized according to their transverse momenta. See Appendix for more details about the procedures.}
+\label{fig:tjetQCD}
+\end{figure}
+
+The multivariate analysis and jet image recognition discussed previously are two characteristically different methods. The multivariate analysis uses physics-motivated observables and is a ``bottom-up" approach to collect useful jet features. However, the set of observables identified may be highly correlated, and it is not clear how to systematically improve the method. On the other hand, jet images represent low-level, comprehensive jet information. The training of a deep neural network is a ``top-down" approach to identify all useful features through model optimization. However, extracting physical messages from the trained neural network parameters can be a challenging task.
+
+We develop and apply the telescoping deconstruction (TD) framework in our study of quark and gluon jet substructures in pp and PbPb collisions. Telescoping deconstruction aims to embrace both advantages of multivariate analysis and jet image recognition. It decomposes jets using physics-motivated, comprehensive sets of observables which form an organized fragmentation basis of jet substructures. It is a complete and systematic subjet expansion consisting simply of subjet kinematic variables. The expansion is ordered by $N$, the number of subjets exclusively reconstructed, and the individual telescoping deconstruction observables are physically motivated to encode the hard splitting of jets and relevant non-perturbative physics within each subjet variable. The telescoping procedure probes radiation around dominant energy flows in a jet with multiple angular resolutions. It efficiently quantifies the radiation distribution by first capturing the dominant energy in the subjet reconstruction and then reaching out to include wide-angle, soft radiation. Figure~\ref{fig:tjetQCD} illustrates the telescoping deconstruction of a QCD jet at T1, T2 and T3 orders. The details about the telescoping deconstruction procedures are provided in the Appendix, including the applications on boosted $W$ and top tagging in high energy physics.
+
+For $R=0.4$ jets, we telescope around the subjets axes using radii from 0.08 to 0.4 with $N_{\rm steps} = 5$ steps of 0.08. The subjet observables up to the $N$-th order are combined using dense neural networks to maximize the classification performance. We consider $N=\{1,2,3\}$ in this study and find the performance quickly saturates at $N=3$. Each telescoping deconstruction order has $N_{\rm steps} \times 2$ variables of subjet transverse momenta and subjet masses, in addition to the subjet axis information $\eta, \phi$. %Thus, third order TD includes by definition, all variables from the second and first order TD expansion of a jet. 
+These telescoping variables are cumulatively combined and input into a multi layer perceptron, much like the one we used in the previous multivariate analysis, with two hidden dense layers and a final output layer of activation and optimization functions.
+
+Beside the overall classification performance using telescoping deconstruction, subjet variables within this framework can reveal many aspects of jet dynamics. In particular, there is rich information contained in subjet topology and subjet substructure. Recently, the CMS~\cite{Sirunyan:2017bsd} and STAR~\cite{Kauder:2017mhg} collaborations measured the groomed momentum sharing observable $z_g$. One reclusters jets using the Cambridge/Aachen (C/A) algorithm \cite{Dokshitzer:1997in,Wobisch:1998wt} and sequentially removes wide angle, soft radiation until the following condition is satisfied by a branching,
+\begin{equation}
+    z_{\rm cut} < \frac{\min(p_{T_1},p_{T_2})}{p_{T_1}+p_{T_2}} \equiv z_g\;.
+\label{SD}
+\end{equation}
+Here $p_{T_1}$ and $p_{T_2}$ are the transverse momenta of the two branches, and $z_{\rm cut}$ is the soft-drop parameter which is set to $0.1$ in our analysis. Note that the Cambridge/Aachen clustering tree is angular-ordered, therefore the above procedure identifies the most wide angle, soft subjet which carries a significant fraction of the jet transverse momentum. The size of the soft subjet is dynamically determined and related to the angle $r_g$ between the two soft-drop branches, defined as the groomed jet radius. The observables $z_g$ and $r_g$ thus encode the kinematic information of the two subjets which is in the category of subjet topology. In vacuum, the observable $z_g$ is closely related to the Altarelli-Parisi splitting functions~\cite{Altarelli:1977zs}. The physical meaning of $z_g$ in heavy ion collisions have also been actively investigated \cite{Chien:2016led,Mehtar-Tani:2016aco,Milhano:2017nzm,Chang:2017gkt,Li:2017wwc}.
+
+\begin{figure}[t]
+	   \centering
+	   \includegraphics[width=0.9\textwidth]{plots/Comp_z.pdf}
+	   \caption{Transverse momentum fraction of the sub-leading subjet for Quark (left) and Gluon (right) jets in pp (solid) with soft drop, pp with TD T3 (dashed), quenched PbPb soft drop (dotted) and quenched PbPb TD T3 (dot dashed) lines. Subjet fraction is enclosed between 0.1 and 0.5 due to the $z_{cut}$ applied while grooming.}
+\label{fig:comp_z}
+\end{figure}
+
+We use telescoping deconstruction to analyze the two soft-drop branches defining the $z_g$ observable. As a first attempt, at the T2 order we choose the subjet radius proportional to the angle between the two deconstruction axes for subjet reconstruction. The proportionality constant $C$ is chosen to be smaller than $0.5$ in order for the two subjets be separated in angle. We impose a similar condition for the momentum fraction $z_{\rm T2}$ of the softer subjet,
+\begin{equation}
+    z_{\rm cut} < \frac{\min(p_{T_1},p_{T_2})}{p_{T_1}+p_{T_2}} \equiv z_{\rm T2}\;,
+\label{T2_z}
+\end{equation}
+where $p_{T_1}$ and $p_{T_2}$ are the transverse momenta of the two exclusively constructed subjets. The resulting $z_{\rm T2}$ distribution is significantly different from the $z_g$ distribution, especially for gluon jets.  As a reminder, the axes used in the telescoping deconstruction procedure are defined with the winner-take-all scheme which favors energetic particles. We find that the axes determined at the T2 order may both align with the hard soft-drop branch and are not able to efficiently tag the soft branch when it consists of soft particles.
+
+The situation is significantly improved at the T3 order where three axes are used to capture the soft branch in soft-drop. Similarly, the subjet radii are chosen to be proportional to the angles among three axes. We combine two closest subjets and construct the momentum fraction of the resulting two subjets with a similar kinematic cut,
+\begin{equation}
+    z_{\rm cut} < \frac{\min(p_{T_1},p_{T_2})}{p_{T_1}+p_{T_2}} \equiv z_{\rm T3}\;.
+\label{T3_z}
+\end{equation}
+This essentially reclusters the three-subjet system using the C/A algorithm and selects the hard branching. The distributions of the momentum fraction $z_{\rm T3}$ of the softer subjet for quark (left) and gluon (right) jets are very similar as shown in Figure~\ref{fig:comp_z}. The solid and dotted lines represent the soft-drop $z_{g}$ distributions in pp and PbPb collisions, and we see an enhancement of asymmetric jets in PbPb collisions. In comparison, the soft subjet momentum fraction at the T3 order for both quark and gluon jets is less modified by quenching (see the comparison between the dashed and the dot-dashed lines in Figure~\ref{fig:comp_z}).
+
+In addition to the subjet momentum fraction, there is also recent interest in measuring the angular separation between the two subjets. Figure~\ref{fig:comp_rg} shows the distributions of the groomed jet radius $r_g$ and the angle $\theta_{\rm T3}$ between the two subjets for quark (left) and gluon (right) jets.
+
+For the $r_g$ observable, the modification induced to a jet due to quenching is clearly visible in that the subleading subjet gets pushed to a larger distance away. While this particular observable has not yet been experimentally measured at the LHC or the RHIC, the phenomenon of broadening of the jet observed in these MC calculations are consistent with measurements of the jet shape~\cite{}. Both the soft-drop $r_g$ and the T3 $\theta$ show deviations due to quenching, but the quenched distributions do not match up with each other. Softdrop shows a narrow peak for quenched jets at 0.3, where as the T3 distribution is broader since the sub-jet axis definition are not the same (Softdrop uses C/A whereas TD uses WTA). Thus these are similar observables that in comparison, we extract the physics due to quenching but these do not provide an apples to apples comparison.
+
+\begin{figure}[t]
+	   \centering
+	   \includegraphics[width=0.9\textwidth]{plots/Comp_rg.pdf}
+	   \caption{Angular distance between the leading and subleading subjets for Quark (left) and Gluon (right) jets in pp (solid) with soft drop, pp with TD T3 (dashed), quenched PbPb soft drop (dotted) and quenched PbPb TD T3 (dot dashed) lines. The quenched $R_{g}$ distribution is significantly modified compared the vacuum case.}
+\label{fig:comp_rg}
+\end{figure}
+
+\begin{figure}[t]
+	   \centering
+	   \includegraphics[width=0.9\textwidth]{plots/Comp_subjet_m.pdf}
+	   \caption{Leading subjet mass for Quark (left) and Gluon (right) jets in pp (solid) and  quenched PbPb (dotted) in comparison with the subleading subjet mass in pp (dashed) and quenched PbPb (dot dashed) lines. }
+\label{fig:comp_subjet_m}
+\end{figure}
+
+We also study the subjet mass for both the subjets that represent the two major prongs of our jet. The subjet mass distribution for hard (solid - pp, dotted - PbPb) and soft (dashed - pp, dot-dashed - PbPb) is shown for quark (left) and gluon (right) jets in Fig:~\ref{fig:comp_subjet_m}. In this particular case, hard or soft refers to the subjet's momentum with harder meaning the one with higher transverse momentum. The first point of difference is seen due to the effect of quenching, i.e. the pp hard and soft subjet mass are comparable with the softer subjet having a larger tail. The quenched softer subjet as expected has a much larger tail towards larger masses indication its constituent distribution is spread out over a larger area as opposed to the quenched harder subjet.
+
+
+
+WRITE THE CONCLUSION HERE FOR THIS PARTICULAR SECTION - WHAT DO WE LEARN
+
+\section{Quark and Gluon Jet Modification and Discrimination}
+\label{sec:results}
+
+We discussed jet representations using multiple physics-motivated variables, jet images and telescoping deconstruction. In this section we will use these information in the study of jet modification and quark gluon discrimination. For quark gluon discrimination, the performances are shown using Receiver Operating Characteristic (ROC) curves which plot the gluon jet efficiency as a function of the quark jet efficiency. Each ROC curve is labeled in the following figures with the corresponding area under the curve (auc) where the best performance is noted by large values of quark efficiency with small values of gluon efficiency leading to a small auc.
+
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=0.49\textwidth]{plots/JEWELPYTHIA_pp_2p76TeV_genLevel_QvsG.pdf}
+	\includegraphics[width=0.49\textwidth]{plots/JEWELPYTHIA_PbPb_2p76TeV_genLevel_QvsG.pdf}
+	\caption{ROC curves for quark vs gluon efficiency for particle jets in pp (left) and PbPb (right). The different colored curves show the variety of classification models studied in this paper and the quantity in the brackets marked by auc represents the area under the curve. The green solid and dotted lines are for the MLP with physics variables w/ and w/o the pixel multiplicity. The blue solid line is with the DCNN on jet images and the brown, orange and teal colors are for the TD with T1, T2 and T3 orders respectively. (color online)}
+\label{fig:ROC_all}
+\end{figure}
+
+Figure:~\ref{fig:ROC_all} shows the ROC curves for quark gluon discrimination using physics-motivated variables, jet images and telescoping deconstruction in pp (left panel) and PbPb (right panel) collisions for particle jets i.e jets reconstructed with particle momenta without $\eta=\phi$ discretization and background subtraction. We see an overall compatibility amongst the methods used leading to similar classification performances, implying that the three jet representations capture sufficient jet information. Note that there is monotonic increase of the telescoping deconstruction performances from $\rm T1$ to $\rm T1+T2$ to $\rm T1+T2+T3$ with increasing input information of higher-order subleading subjets. Is it important to note that the TD classification performance saturates quickly at the T2 order with additional higher order offering very little improvement in the quark efficiency given a gluon efficiency. In the PbPb case (right of Fig:~\ref{fig:ROC_all}), the MLP with physics variables gives better performance due to the high particle multiplicity in the \jwpy-simulated PbPb events. Measuring the jet multiplicity in heavy ion collisions is very tricky due to the underlying and its correlations with the jet. In nature of this difficulty, we also show the ROC curve for the MLP with physics variables without jet multiplicity denoted by the dotted green line in Fig:~\ref{fig:ROC_all} which reduces the overall auc by $0.02$ and becomes consistent with our DCNN. Even though the TD with radius scan in steps of 0.08 is unable to accurately capture the full multiplicity information at the T3 order it still within a few percent difference of the auc, providing confidence in its ability to capture the entirety of the jet's flavor dependent fragmentation. In order to directly compare with data, we apply the grid discretization for both pp and PbPb with its specific GridSub background subtraction technique and compare the various orders of TD on the left of Fig:~\ref{fig:ROC_TD_grid}.
+
+\begin{figure}[t]
+	\centering
+        \includegraphics[width=0.49\textwidth]{plots/JEWELPYTHIA_TD_2p76TeV_ppvsPbPb.pdf}
+        \includegraphics[width=0.49\textwidth]{plots/JEWELPYTHIA_TD123_2p76TeV_ppvsPbPb_comp_QvsG.pdf}
+	\caption{(Left) ROC curves for quark vs gluon efficiency with the TD method for grid jets in pp (dotted lines) and PbPb (solid lines) (w/ GridSub). The different colors are for different orders (T1 - blue, T2 - red, T3 - green; color online). (Right) ROC curves for quark vs gluon efficiency with the TD model at the third order for pp particle (green dotted), pp grid (blue dotted), PbPb particle (solid green), PbPb grid no bkg-sub (solid red) and PbPb grid sub (solid blue) jets. The corresponding area under the curves are shown in the brackets.}
+	\label{fig:ROC_TD_grid}
+\end{figure}
+
+We clearly see that the performances drops in PbPb collisions along with a reduction in the performance improvement from T1 to $\rm T1+T2$ in PbPb collisions. This suggests that the information carried in higher-order subleading subjets can be washed out in heavy ion collisions due to the huge underlying-event soft activities or, more interestingly, the thermal randomization caused by the medium interactions in \jwpy. On the right of Fig:~\ref{fig:ROC_TD_grid} we plot the TD ROC curves for jet with inputs with or without $\eta-\phi$ discretization and background subtraction. Since the radius scan in TD respects the $\eta-\phi$ discretization resolution, we don't see the change of the TD performance. On the other hand, the performance drops with the background subtraction performed (slight increase in the auc). This suggests that some intrinsic differences between quark jets and gluon jets are removed in the subtraction quantitatively bringing the two flavors of jets together in their fragmentation basis.
+
+\begin{figure}[t]
+	   \centering
+	   \includegraphics[width=0.49\textwidth]{plots/JEWELPYTHIA_2p76TeV_quark_ppvspbpb.pdf}
+	   \includegraphics[width=0.49\textwidth]{plots/JEWELPYTHIA_2p76TeV_gluon_ppvspbpb.pdf}
+	   \caption{ROC curves for a given jet to be pp-like (in vacuum) or PbPb-like (quenched) for quark (left) and gluon jets on the grid (right). As before, the MLP with physics variables with and without pixel multiplicity in the green solid and dotted lines, DCNN on jet images in solid blue, TD at first, second and third order are in solid maroon, orange and cyan lines.}
+\label{fig:ROC_qq_gg}
+\end{figure}
+
+For a given jet flavor, i.e. quark or gluon jet, one can also study with the various aforementioned methods, how the medium modifies it by comparing a vacuum jet with a quenched jet. Figure:~\ref{fig:ROC_qq_gg} shows the ROC curves for discriminating quark jets (left panel) and gluon jets (right panel) in pp and PbPb collisions using physics-motivated variables, jet images and telescoping deconstruction. We see huge difference between jets and all methods perform significantly better at the task of identifying if a jet is quenched or not as opposed to if its a quark or gluon jet and therefore we plot the ROC curve using log scale in the y-axis. We observe that the increase of the pixel multiplicity is a key feature in aiding the MLP in identifying quenched jets with the MLP only slightly worse than the DCNN. The better performance in the gluon jet discrimination (right panel of Fig:~\ref{ROC_qq_gg}) suggests that gluon jets are significantly more modified than quark jets due to medium induced quenching.
+
+From our studies of the ROC curve in comparing quarks vs gluons and in comparing vacuum vs quenched jets, we can begin to qualitatively understand the effect of quenching as implemented in the \jw MC. Quenched jets end up with significantly more jet constituents which are distributed away from the principal axis of the jet as seen in the saturation of TD classification performance from first to third order. This modification appears to affect gluon jets significantly more than quark jets since a gluon jet with its increased multiplicity and wider parton shower due to the color factor, can all undergo quenching, or in the case of \jw, interact with the scattering centers leading to a broader more quenched jet. For a systematic study of such differences in quenched quark vs gluon, we employ the use of Lund Diagram as we shall discuss in the next section.
+
+\section{Quark and Gluon Jets in Lund Diagrams}
+\label{sec:lund}
+
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=0.9\textwidth]{plots/Individual_LundDiagrams_zrel.pdf}
+	\caption{Lund diagrams plotted with the relative $z$ of the soft subjet in the harder branch for quark (left) and gluon jets (right) in pp (top) and central PbPb simulations with \jw. (See text for definition of the axis)}
+\label{fig:Lund_full}
+\end{figure}
+
+Any jet observable on the market is designed as some function of the momentum and the distance scale that is used in the jet reconstruction. These two scales can be represented as $\ln (R/\Delta R)$ and $\ln z(\Delta R/R)$, where $z$ is the transverse momentum fraction of the softer subjet relative to sum of the two subjets, $\Delta R$ is the angular scale between the two subjets in a given branch and $R$ is the jet radius. Such a representation of a jet is known as the Lund Diagram~\cite{Salam:2016yht} and the prescription to create such a diagram for a given jet is as follows:
+\begin{itemize}
+	\item Cluster your jet with a jet R say $0.4$ and a particular jet algorithm, in our case anti-k$_{t}$
+	\item Take the jet constituents and re-cluster with the C/A algorithm which combines the nearest particles with each other
+	\item Walk backwards along the clustering tree and for each branch calculate the $z=p^{2}_{T}/(p^{1}_{T}+p^{2}_{T})$ and $\Delta R = \sqrt{\Delta \eta^2_{1, 2}+\phi^2_{1, 2}}$
+	\item Fill the Lund diagram at each split
+	\item Continue in walking backwards along the hard branch till you reach only one particle
+\end{itemize}
+
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=0.9\textwidth]{plots/Individual_LundDiagrams_zrel_background.pdf}
+	\caption{Lund diagrams specifically showing subjets that are removed and tagged as background ($z<0.1$) for quark (left) and gluon jets (right) in pp (top) and central PbPb simulations with \jw. (See text for definition of the axis)}
+\label{fig:Lund_bkg}
+\end{figure}
+
+The beauty of a Lund diagram is its convenient separation of wide soft angle radiation close to the y-axis, collinear hard radiation along the diagonal and with contribution from hadronization and underlying event in a line parallel to the x-axis. These Lund diagrams have also been recently used in distinguishing between QCD and boosted heavy objects due to their unique feature of featuring jets of a constant mass along the main diagonal (opposite to the collinear hard radiation). We show the Lund diagrams for quark (left) and gluon (right)jets in pp (top) and PbPb (bottom) in Fig:~\ref{fig:Lund_full} where the z is calculated relative to each split. We see an enhanced region in PbPb collisions close to the y-axis in comparison to pp which corresponds to increased wide soft angle in quenched jets. Comparing left to right (as we discussed in Fig:~\ref{fig:quenching_discrimination}) one also sees gluon jets include a larger fraction of the soft radiation and these are susceptible to hadronization and underlying event effects. The hard collinear radiation region of the Lund diagram, that is dominated in pp is shown to reduce in its significance for quenched jets. The core of the jet remains similar between pp and PbPb, but the secondary sub-jet ultimately gets pushed to wider angles and to softer momenta. Such a picture is exactly what we discussed in Fig:~\ref{fig:comp-zg}-\ref{fig:comp_subjet_m} but this time, visible via the Lund diagram.
+
+\begin{figure}[t]
+	   \centering
+	   \includegraphics[width=0.9\textwidth]{plots/Individual_LundDiagrams_zrel_hardBranch.pdf}
+	   \caption{Lund diagrams created by following the first hard branch selected by $z>0.1$ for quark (left) and gluon jets (right) in pp (top) and central PbPb simulations with \jw. (See text for definition of the axis)}
+\label{fig:Lund_hard}
+\end{figure}
+
+One can now study the effect of grooming with the help of the Lund diagrams by rejecting the soft radiation ($z < 0.1$) that is typically groomed a way the softdrop method. Fig:~\ref{fig:Lund_bkg} shows the Lund diagrams for our jets in pp and PbPb  before the one which passes the soft-drop condition. We see that the soft, wide-angle radiation is isolated and the hard collinear core is essentially removed. The bottom right panel of Fig:~\ref{fig:Lund_bkg} with quenched gluon jets shows the maximum density of soft wide angle radiation. These soft jet constituents in the jet's periphery are precisely the ones that show up as a modification of the jet shape. Within the framework of this diagrammatic representation, one can now build up these observables and follow the harder branch leading from the first split. Fig:~\ref{fig:Lund_hard} shows the Lund diagrams after the soft branch (background) has been removed via the soft-drop procedure. We see that the vacuum structure starts to emerge in the soft-drop PbPb jets. However, soft-drop can not remove all the soft radiation within the hard branch in PbPb collisions as shown by the enhanced wide angle radiation. We understand this behavior as the correlated medium response that belongs to the jet but is often removed due to a statistical treatment of background in experiments.
+
+\section{Conclusions}
+\label{sec:conc}
+
+We have shown a systematic study of modification to the jet structure due to the effects of quenching in heavy ion collisions as implemented within the \jw MC generator. The medium modification is studied via the novel method of comparing and contrasting the classification of quark jets from gluon jets. We compare a MLP with physics motivated jet variables and a state of the art DCNN applied on jet images to a our method of Telescoping Deconstruction and find the classification performance worsens for quenched jets when compared with vacuum pp jets. All of the models studied perform consistently with each other giving us the confidence that the TD to third order is extracting fundamental fragmentation patters of a given jet.
+
+DISCUSSION - THIS IS A VERY IMPORTANT PART
+
+\section*{Acknowledgments}
+The authors are grateful to Patrick Komiske and Eric Metodiev for collaborating on the development of telescoping deconstruction and contributions to the Appendix. The authors also thank Benjamin Nachman, Joern Putschke, Konrad Tywoniuk and Sevil Salur for helpful discussions. We thank Gavin Salam and the organizers of CERN jet workshop (2017) for bringing to our attention the concept of Lund Diagrams and their usage in studying jet modifications. YTC was supported by the LHC Theory Initiative Postdoctoral Fellowship under the National Science Foundation grant PHY-1419008. RKE acknowledges partial support from the NSF under Grant No.1067907 \& 1352081 and DOE (need to ask Joern).
+
+
+
+
+
+
+
+
+
+
+\newpage
+\appendix
+\section*{Appendix}
+\section{Probing subjet energy flows with telescoping deconstruction}
+
+Jets are collimated sprays of particles observed at high energy colliders such as the Large Hadron Collider (LHC). Hard collisions produce energetic quarks and gluons, which shower and hadronize through the strong interaction into the final state particles captured by the detectors. This parton shower picture has been extremely successful for understanding and modeling jets. Physics at all energy scales enters the parton shower and affects the final-state particle distribution. To extract specific features of the jet formation, many physically motivated jet substructure observables, defined in terms of the observed particles, have been studied extensively \cite{Abdesselam:2010pt,Altheimer:2012mn,Altheimer:2013yza,Adams:2015hiv,Larkoski:2017jix,ATLAS-CONF-2017-064,Khachatryan:1955546}.
+
+In this appendix, we present the framework of telescoping deconstruction to systematically probe aspects of jet formation. By scanning around dominant energy flows with multiple angular resolutions \cite{Chien:2013kca,Chien:2014hla}, one can efficiently quantify the radiation pattern. We demonstrate the use of the framework in quark/gluon discrimination, boosted $W$ tagging and boosted top tagging, and we show that the framework captures relevant physics of jets. Crucially, the framework involves a fixed-order organization of individual observables which allows systematically improvable jet studies. Explicit examples of the $W$ isolation \cite{Chien:2017xrb} and exposing the $W$ boson in a top jet are presented. This highlights the physically meaningful nature of each telescoping deconstruction observables and demonstrates their collective power as a representation.
+
+Recently, there has been progress in utilizing the complete information in a jet in an unbiased way using advanced machine-learning techniques. Powerful multivariate function approximators, such as neural networks, are capable of extracting useful features of the data relevant for a specific task. Examples include jet images with convolutional neural networks (CNNs)~\cite{Cogan:2014oua,deOliveira:2015xxd,Komiske:2016rsd,Kasieczka:2017nvn}, clustering histories with recurrent neural networks~\cite{Louppe:2017ipp}, complete sets of high-level observables with dense neural networks (DNNs)~\cite{Datta:2017rhs,Datta:2017lxt,Aguilar-Saavedra:2017rzt} and linear basis of energy flow polynomials \cite{Komiske:2017aww}. See \cite{Larkoski:2017jix} for a more complete summary and discussion of recent progress. %While machine-learning methods can provide large increases in performance, extracting physical messages from the trained neural network parameters is a complicated task.
+
+Telescoping deconstruction aims to encapsulate relevant physics information in simple, physical observables. The variables are close to the perturbative expansion of QCD and the parton shower picture therefore perturbative and nonperturbative physics information can be systematically extracted. Similar to fixed-order perturbative expansions and parton shower splitting kernels \cite{Nagy:2017ggp}, the expansion is ordered by the number $N$ of exclusively reconstructed subjets. At each order, $N$ axes are determined by finding the dominant energy flow directions in the rapidity-azimuth plane~\cite{Stewart:2010tn,Chien:2013kca,Stewart:2015waa,Thaler:2015xaa}, which is partitioned into energy flow regions determined by the nearest axis. Jets at multiple angular resolutions are probed simply by the {\sl kinematics} of subjets consisting of particles within different distances $R_T$ from the energy flow axes.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=.32\columnwidth]{figures/topjetT1_telescoped2.pdf}
+\includegraphics[width=.32\columnwidth]{figures/topjetT2_telescoped2.pdf}
+\includegraphics[width=.32\columnwidth]{figures/topjetT3_telescoped2.pdf}
+\includegraphics[width=.32\columnwidth]{figures/topjetT1_masses2.pdf}
+\includegraphics[width=.32\columnwidth]{figures/topjetT2_masses2.pdf}
+\includegraphics[width=.32\columnwidth]{figures/topjetT3_masses2.pdf}
+\caption{\label{fig:tjet}(Top row) The telescoping deconstruction of a top jet at T1 (left panel), T2 (middle panel) and T3 (right panel) orders. The crosses are the Winner-Take-All $k_T$ axes. The straight lines are the exclusive subjet boundaries. Particles are sized according to their transverse momenta. (Bottom row) The subjet masses at T1 (left panel), T2 (middle panel), and T3 (right panel) orders as the telescoping radius $R_T$ is varied, corresponding to the region of the same color in the top row. The presence of the $W$ in the top jet can be clearly seen at T1 and T2 orders by the plateau of the red line beginning around $R_T=0.3$.}
+\end{figure}
+
+
+The telescoping deconstruction procedure is:
+\begin{itemize}
+        \item At order $N$, determine $N$ axes $\{\hat n_i\}=\{(\eta_i,\phi_i)\}$ along the dominant energy flows, where $y$ and $\phi_i$ are the rapidity and the azimuthal angle of the subjet axis $i$. We use the Winner-Take-All (WTA) $k_T$ axes \cite{Bertolini:2013iqa}.
+        \item Construct $N$ subjets with $M$ radii $\{R_{T,m}\}^M_{m=1}$ by assigning particles to the nearest axis according to the distance $d^2_{ij} = \Delta y_{ij}^2+\Delta \phi_{ij}^2$ between the axis $\hat n_i$ and the particle $j$ \cite{Stewart:2010tn,Chien:2013kca,Stewart:2015waa,Thaler:2015xaa}.
+            \begin{equation}
+                {\rm subjet}_{i,m} = \{p^\mu_j~|~d_{ij}<R_{T,m}~{\rm and}~d_{ij}<d_{kj} \forall i\neq k\}.
+            \end{equation}
+            The subjet radii ${R_{T,m}}$ are sampled within the range $(0,R)$ where $R$ is the jet radius. In this paper $\{R_{T,m}\}$ are chosen to be evenly spaced within the range.
+        \item We form the subjet data with the subjet transverse momenta and masses $\{(p_T,m)_{i,m}\}$,
+            \begin{equation}
+                {p_T}_{i,m}=\Big(\sum_{j\in~{\rm subjet}_{i,m}}p^\mu_j\Big)_T\;,~~~{m_{i,m}}^2=\Big(\sum_{j\in~{\rm subjet}_{i,m}}p^\mu_j\Big)^2\;,
+            \end{equation}
+            where we sum over all the particles $j$ within the subjet $i,m$. Together with the positions of the axes these form the telescoping deconstruction observables.
+    \end{itemize}
+
+
+
+The telescoping deconstruction observables fall into two categories~\cite{Chien:2017xrb}: the {\sl subjet topology}, which is described by the axes and subjet transverse momenta, and the {\sl subjet substructure}, quantified by the subjet masses. {\sl Subjet charge}~\cite{Krohn:2012fg} information can be included in this framework as well. As the telescoping subjet order $N$ (T$N$ order) increases, more jet energy is covered by the subjets and the number of subjet radii sampled can be systematically decreased. In the large $N$ limit, the subjets reduce to individual particles with the full jet information. The telescoping deconstruction allows one to exploit features both within each subjet and among all the subjets. See \Fig{fig:tjet} for the telescoping deconstruction of a top jet for $N = 1$, $2$, and $3$ where the $W$ resonance can clearly be seen.
+
+To demonstrate the efficacy of telescoping deconstruction in capturing the full jet information,
+we apply the framework in quark/gluon discrimination, boosted $W$ tagging and boosted top tagging. Each of these problems have
+signal jets with a different characteristic number of prongs: one, two, and three prongs, respectively. Events were generated from Monte Carlo simulation of proton-proton collisions at 14 TeV using \textsc{Pythia} 8.226~\cite{Sjostrand:2007gs}. Final-state non-neutrino particles are clustered into jets with \textsc{FastJet} 3.3.0~\cite{Cacciari:2011ma} using the anti-$k_T$ algorithm~\cite{Cacciari:2008gp}. We consider the boosted regime with the jet $p_T$ between 800 GeV and 900 GeV. For quark/gluon discrimination, quark jets were generated by $pp\to q+Z(\to\nu\bar\nu)$ and gluon jets %were generated
+by $pp\to g + Z(\to\nu\bar\nu)$, clustered into $R=0.4$ jets with rapidity $|y|<1.5$.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=.32\columnwidth]{figures/QG_invROC.pdf} \includegraphics[width=.32\columnwidth]{figures/W_invROC.pdf} \includegraphics[width=.32\columnwidth]{figures/Top_invROC.pdf}
+\caption{\label{ROCs}ROC curves for the DNNs trained on cumulant telescoping deconstruction observables up to T1 through T4 orders and the jet image method using CNNs for quark/gluon discrimination (left panel), boosted $W$ (middle panel) and top (right panel) tagging. The T$N$ performance approximately saturates at T2 (quark/gluon), T1 ($W$ tagging), and T2 (top tagging) orders.}
+\end{figure}
+
+Since $W$ and top tagging are mass resonance searches where the jet mass is the most natural and powerful discriminating variable, we disentangle mass information to probe how much additional information can be exploited for tagging. Information from the hard process about the overall jet kinematics is eliminated by translating each jet to a frame where $y$ and $\phi$ of the jet are both zero. For $W$ and top tagging, $W$ jets were generated by $pp\to WW (\to \text{hadrons})$ and top jets were generated by $pp\to t\bar t (\to \text{hadrons})$, with background jets from QCD dijets. Final-state non-neutrino particles are clustered into $R=1.0$ jets with rapidity $|y|<1.5$. Signal and background jets identically populate a five-bin $1/p_T^4$ histogram in transverse momentum and a three-bin uniform histogram in mass between 75 GeV and 85 GeV for $W$ tagging and 160 GeV to 180 GeV for top tagging. Telescoping subjets are constructed with $R_T$ in steps of 0.05 between 0.05 and 0.4 in
+quark/gluon discrimination, and between 0.05 to 0.95 in
+$W$ and top tagging. Reducing the number of radius sampling is left for future work. For each problem, 200k events are generated for signal and background, with 10\% used for validation, 15\% for testing, and the remaining 75\% for training.
+
+A neural network consisting of three dense layers with 100 nodes each is trained on the telescoping deconstruction observables up to T$N$ order. The training can be performed on a typical laptop CPU in fewer than five minutes. One could also use boosted decision trees to combine variables \cite{Chien:2017xrb}. We compare the performance of our method to jet images using a CNN, which requires a graphics processing unit (GPU) to train. The jet images are size $33\times 33$ and span a $2R\times 2R$ patch of the rapidity-azimuth plane with the intensity of each pixel corresponding to the total $p_T$ of particles in the pixel. The jet images are standardized according to the procedure in \Ref{Komiske:2016rsd}. The CNN architecture consists of three 48-filter convolutional layers with filter sizes of $8\times 8$, $4\times 4$, and $4\times 4$ followed by a 128-unit dense layer and a 2-unit softmaxed output layer. A $2\times 2$ maxpooling is performed after each convolutional layer with a stride length of 2. The dropout rate was taken to be 0.1 for all layers. All neural networks are implemented using the Python deep learning library Keras~\cite{keras} with the Theano backend~\cite{bergstra2010theano}. Rectified linear unit (ReLU) activation functions~\cite{nair2010rectified} and He-uniform model weight initialization~\cite{heuniform} are used. The networks are trained using the Adam algorithm~\cite{adam} with a learning rate of $10^{-3}$ and a batch size of 256 for 50 epochs with a patience parameter of 8, and the best model is selected based on validation set performance.
+
+The performance of the trained models can be captured in a Receiver Operating Characteristic (ROC) curve which plots the inverse of the background mistag rate at different signal efficiencies, where a higher curve indicates better classification performance. \Fig{ROCs} shows the ROC curves for the three tagging problems of the models trained on the cumulant telescoping deconstruction observables up to T$N$ order for $N\in\{1,2,3,4\}$ and the CNNs trained on jet images. The T$N$ performance converges quickly and is comparable to the performance of the jet images approach. % Note that since
+The CNN architecture has not been tuned exhaustively, therefore its ROC curves serve to give a general sense of performance. %This is highlighted in the top case, where the telescoping deconstruction DNN outperforms the CNN at T2 order and above.
+\begin{figure}[h]
+\centering
+\includegraphics[width=.32\columnwidth]{figures/T1HeavyMass_top.pdf}
+\includegraphics[width=.32\columnwidth]{figures/T2HeavyMass_top.pdf}
+\includegraphics[width=.32\columnwidth]{figures/T3HeavyMass_top.pdf}
+\includegraphics[width=.32\columnwidth]{figures/T1HeavyMass_qcd.pdf}
+\includegraphics[width=.32\columnwidth]{figures/T2HeavyMass_qcd.pdf}
+\includegraphics[width=.32\columnwidth]{figures/T3HeavyMass_qcd.pdf}
+\caption{\label{masses}The heavy subjet mass distributions at T1 (left panels), T2 (middle panels), and T3 (right panels) orders for multiple subjet radii $R_T$ of top jets (top row) and QCD background jets (bottom row). The presence of the $W$ in top jets is evident by the peaks at the $W$ mass at T1 and T2 orders. At T3 order, the heavy subjet mass distributions are QCD-like and are narrower (more quark-like) in %the case of
+top subjets than the wider (more gluon-like) QCD subjets. These features highlight the ability of the telescoping deconstruction to probe subjet substructure.}
+\end{figure}
+
+For top tagging, there is a significant increase in performance from T1 to T2 order in \Fig{ROCs}, and the performance saturates beyond this order due to the sensitivity of T2 to the $W$ in top jets. For $W$ tagging, T1 order is sufficient to achieve most of the classification performance, which unambiguously confirms the $W$ isolation feature in the boosted regime compared to the QCD background~\cite{Chien:2017xrb}. Clearly, the T1 order probes the depletion of the radiation at large angles within $W$ jets, whereas the QCD background jets continue to accrue mass from radiation at large angles. For quark/gluon discrimination, there is a significant increase in performance from T1 to T2 and a smaller increase from T2 to T3 where the performance saturates, suggesting the usefulness of T2 subjet substructure and its sensitivity to subjet flavors. This confirms that the T$N$ expansion converges efficiently and telescoping deconstruction faithfully represents the jet information.
+
+In addition to being a useful jet representation, the telescoping deconstruction allows physical information to be easily extracted. \Fig{masses} shows the heavy subjet mass distributions at T1, T2, and T3 orders, scanned over different telescoping radii $R_T$, for top jets and their QCD background. As $R_T$ is increased, the top jet T1 subjet mass distributions transition from QCD-like, to peaked at the $W$ mass, to peaked at the top mass. In contrast, the background QCD jets do not peak at the $W$ mass for any $R_T$ and transition from QCD-like to more top-like as they %continue to
+accrue mass at larger radii. The top jets at T2 order clearly and automatically show the $W$ peak which is completely absent in the background distributions. At T3 order, both top and background distributions appear QCD-like, with the wider background distributions %slightly wider
+due to the prevalence of gluon subjets. This highlights again subjet substructure in telescoping deconstruction.
+
+\bibliographystyle{JHEP3}
+\bibliography{qg_ML_ref}
+
+\end{document}
+
+
+
+
