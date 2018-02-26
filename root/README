@@ -8,3 +8,9 @@ Here are the root histograms for
 * ms, soft subjet mass
 
 in both pp and AA collisions
+
+
+To make the plots, run the macro in root
+$ root -b -q plot_SubJetVars.C+
+
+the -b is for batch mode so that it doesnt try to open up each plot it makes. just makes the code run faster. -q is to quit root after its done with the program. the .C+ makes sure that you compile the code. 
