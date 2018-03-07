@@ -136,7 +136,7 @@ For jets in proton-proton collisions, we use the sets of jet samples with and wi
 \label{sec:qg}
 \begin{figure}[t]
 	   \centering
-	   \includegraphics[width=0.6\textwidth]{plots/qg_HI}
+	   \includegraphics[width=0.7\textwidth]{plots/qg_HI}
 	   \caption{Illustration of the interplay between jet quenching (vertical) and quark gluon discrimination (horizontal). }
 	   \label{fig:quenching_discrimination}
 \end{figure}
@@ -190,7 +190,7 @@ The multivariate analysis discussed previously is a constructive approach to col
 Figure~\ref{fig:qgjetimages} shows the average quark (left) and gluon (right) jet images in pp (top) and central PbPb (bottom) collisions. The color of each image pixel represents the transverse momentum deposited in the pixel. We see a broader energy distribution around central pixels for gluon jets as compared to quark jets in pp collisions, with both flavors exhibiting significantly broader distributions for jets in PbPb collisions. Note that in experiment, it may be very challenging to directly analyze jet images due to detector and measurement considerations. Here we mainly use the jet image approach as a useful and state-of-the-art comparison of the classification performance.
 	
 A deep convolutional neural network is implemented in Keras with the TensorFlow \cite{DBLP:journals/corr/AbadiBCCDDDGIIK16} backend. The neural network model consists of three convolution layers of sequentially reducing sizes, each with 8 filters followed by a max-pooling layer. The convolution layers use hyperbolic tangent activation function, and the output layer uses sigmoid activation function. The output layer is preceded by three layers, a dropout layer with a rejection score of 0.20, a dense layer with 20 nodes and an additional dropout layer with a reduced rejection score of 0.10. The additional dropout layer helps filtering less important features from previous layers and thus increases the speed and efficiency of the model training. The model is trained using the Adam optimizer with binary cross entropy loss function.
-	
+
 \subsection{Telescoping Deconstruction}
 \label{sec:tjet}
 
@@ -205,7 +205,7 @@ A deep convolutional neural network is implemented in Keras with the TensorFlow 
 
 The multivariate analysis and jet image recognition discussed previously are two characteristically different methods. The former uses physics-motivated observables and is a ``bottom-up" approach to collect useful jet features. However, the set of observables identified may be highly correlated, and it is not clear how to systematically improve the method. On the other hand, jet images represent low-level, comprehensive jet information. The training of a deep neural network is a ``top-down" approach to identify all useful features through model optimization. However, extracting physical messages from the trained neural network parameters can be a challenging task.
 
-We develop and apply the telescoping deconstruction (TD) framework in our study of quark and gluon jet substructures in pp and PbPb collisions. TD aims to embrace both advantages of multivariate analysis and jet image recognition. It decomposes jets using physics-motivated, comprehensive sets of observables which form an organized fragmentation basis of jet substructures. It is a complete and systematic subjet expansion~\footnote{Orthogonal frameworks utilizing jet information have been published recently~\cite{Datta:2017rhs, Komiske:2017aww}} consisting simply of subjet kinematic variables, i.e. the subjet $p_T$ and mass. The expansion is ordered by $N$, the number of subjets exclusively reconstructed, and the individual TD observables are physically motivated to encode the hard splitting of jets and relevant non-perturbative physics within each subjet variable. The telescoping procedure probes radiation around dominant energy flow in a jet with multiple angular resolutions \cite{Chien:2013kca,Adams:2015hiv,Chien:2014hla,Chien:2017xrb}. It efficiently quantifies the radiation distribution by first capturing the dominant energy in the subjet reconstruction followed by reaching out to include wide-angle, soft radiation. Figure~\ref{fig:tjetQCD}\footnote{We thank Patrick Komiske and Eric Metodiev for making the beautiful, ``{\sl Ripples in Jets}" illustration in Figure~\ref{fig:tjetQCD} and the one in the Appendix, inspired by the nobel prize awarded to the detection of gravitational waves i.e. {\sl Ripples in Space-Time}.} illustrates the telescoping deconstruction of a random pp jet at T1, T2 and T3 orders (clockwise from top left). Details about the telescoping deconstruction procedures are provided in the Appendix, including the applications to boosted $W$ and top tagging in high energy physics.
+We develop and apply the telescoping deconstruction (TD) framework in our study of quark and gluon jet substructures in pp and PbPb collisions. TD aims to embrace both advantages of multivariate analysis and jet image recognition. It decomposes jets using physics-motivated, comprehensive sets of observables which form an organized fragmentation basis of jet substructures. It is a complete and systematic subjet expansion~\footnote{Other useful basis of jet substructure observables have also been explored recently~\cite{Datta:2017rhs, Komiske:2017aww}.} consisting simply of subjet kinematic variables, i.e. the subjet $p_T$ and mass. The expansion is ordered by $N$, the number of subjets exclusively reconstructed, and the individual TD observables are physically motivated to encode the hard splitting of jets and relevant non-perturbative physics within each subjet variable. The telescoping procedure probes radiation around dominant energy flow in a jet with multiple angular resolutions \cite{Chien:2013kca,Adams:2015hiv,Chien:2014hla,Chien:2017xrb}. It efficiently quantifies the radiation distribution by first capturing the dominant energy in the subjet reconstruction followed by reaching out to include wide-angle, soft radiation. Figure~\ref{fig:tjetQCD}\footnote{We thank Patrick Komiske and Eric Metodiev for making the beautiful, ``{\sl Ripples in Jets}" illustration in Figure~\ref{fig:tjetQCD} and the one in the Appendix, celebrating the Nobel prize awarded to the detection of gravitational waves, i.e., {\sl Ripples in Spacetime}.} illustrates the telescoping deconstruction of a random pp jet at T1, T2 and T3 orders (clockwise from top left). Details about the telescoping deconstruction procedures are provided in the Appendix, including the applications to boosted $W$ and top tagging in high energy physics.
 
 For $R=0.4$ jets, we telescope around the subjets axes using radii from 0.08 to 0.4 with $N_{\rm steps} = 5$ steps of 0.08. We consider $N=\{1,2,3\}$ in this study and find the performance quickly saturates at $N=3$. Each telescoping deconstruction order has $N_{\rm steps} \times 2$ variables of subjet transverse momenta and subjet masses, in addition to the subjet axis information $\eta, \phi$. %Thus, third order TD includes by definition, all variables from the second and first order TD expansion of a jet.
 These telescoping variables are cumulatively combined and input to a multi-layer perceptron, much like the one we used in the previous multivariate analysis, with two hidden dense layers and a final output layer with the same activation and optimization functions.
@@ -244,7 +244,7 @@ The situation is significantly improved at the T3 order where three axes $\{\hat
     z_{\rm cut} < \frac{\min(p_{T_1},p_{T_2})}{p_{T_1}+p_{T_2}} \equiv z_{\rm T3}\;,
 \label{T3_z}
 \end{equation}
-as well as the angle between the two subjets $\theta_{\rm T3} > \Delta$ where $\Delta$ is chosen to be 0.1 \cite{Sirunyan:2017bsd}. 
+as well as the angle between the two subjets $\theta_{\rm T3} > \Delta$ where $\Delta$ is chosen to be 0.1 \cite{Sirunyan:2017bsd}.
 This identifies the kinematics of the branching at the root of the C/A clustering of the three telescoping subjets. The distributions of the momentum fraction $z_{\rm T3}$ for quark (blue) and gluon (red) jets are very similar as shown in Figure~\ref{fig:comp_z}.
 The left panels represent the soft-drop $z_{g}$ distributions in pp and PbPb collisions, and we see an enhancement of low-$z_g$ jets in the \jw PbPb collisions \cite{KunnawalkamElayavalli:2017hxo,Milhano:2017nzm}. On the other hand, the momentum fraction $z_{\rm T3}$ (right panels) for both quark and gluon jets has a similar enhancement at low $z_{\rm T3}$ values, but its distribution is less modified by quenching.
 
@@ -279,10 +279,48 @@ On the other hand, the distributions for quark and gluon jets become very simila
 
 The above studies demonstrate that telescoping deconstruction provides a physical organization of jet information where qualitatively new features can be captured order-by-order in the subjet expansion. It systematically improves quark gluon discrimination, leading to insights about jet quenching mechanisms as implemented in Monte Carlo simulations. Going beyond to higher T$N$ orders or using subjet superstructure \cite{Gallicchio:2010sw} and subjet charge \cite{Krohn:2012fg} information are beyond the scope of this work and left for future studies.
 
+\subsection{Lund Diagrams}
+\label{sec:lund}
+
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=0.9\textwidth]{plots/Individual_LundDiagrams_zrel.pdf}
+	\caption{Lund diagrams for quark (left) and gluon jets (right) in pp (top) and central PbPb collisions in \textsc{Jewel}. See text for the definition of the axes.}
+\label{fig:Lund_full}
+\end{figure}
+
+Each jet observable is defined as a function of the constituent momenta and angles from jet axes so as to probe the entire jet substructure with a single number. One can choose a set of jet observables to be a representation of jets, and we discussed previously several approaches that faithfully encode the jet information. Here we will use the Lund diagram~\cite{Andersson1989} associated with the Cambridge/Aachen clustering tree structure as another jet representation. As we will see, the Lund diagram directly records the branching kinematics along the hard branches in the C/A clustering tree in terms of longitudinal momentum fraction $z$ of the soft branch and the angular separation $\Delta R$ between the two branches. The Lund diagram is then a two-dimensional histogram of variables $\ln (R/\Delta R)$ and $\ln z(\Delta R/R)$ where $R$ is the jet radius used in jet reconstruction. The variables are chosen such that the Lund diagram is uniform in the fixed strong coupling constant limit for jets in pp collisions due to the infrared structure of QCD and as such, they have been shown to be useful in distinguishing between QCD and boosted heavy particle jets \cite{Salam:2016yht}.
+
+Given a jet reconstructed using the anti-$k_{t}$ algorithm with $R = 0.4$, the procedure of creating a Lund diagram is as follows:
+\begin{itemize}
+	\item Recluster the jet using the C/A algorithm
+	\item Start from the root of the tree and move along the hard branches. At each branching, construct the momentum fraction of the soft branch $z=\min(p_{T_1},p_{T_2})/(p_{T_1}+p_{T_2})$ and the angular distance between the two branches $\Delta R = \sqrt{\Delta \eta^2_{1, 2}+\phi^2_{1, 2}}$
+	\item Fill in the Lund diagram for each branching
+	\item Continue along the subsequent hard branches until reaching only one particle
+\end{itemize}
+
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=0.9\textwidth]{plots/Individual_LundDiagrams_zrel_background.pdf}
+	\caption{Lund diagrams for branches removed in the soft-drop procedure with $z<z_{\rm cut}=0.1$ for quark (left) and gluon (right) jets in pp (top) and central PbPb collisions in \textsc{Jewel}. See text for the definition of the axes.}
+\label{fig:Lund_bkg}
+\end{figure}
+
+In the Lund diagram, wide angle, soft radiation populates close to the $y$-axis, while collinear, hard radiation is along the diagonal (with the negative slope). Figure~\ref{fig:Lund_full} shows the Lund diagrams for quark (left) and gluon (right) jets in pp (top) and PbPb (bottom) collisions in \textsc{Jewel}. We see a significantly enhanced region close to the $y$-axis in PbPb collisions that corresponds to increased wide angle, soft radiation in quenched jets. Comparing quark to gluon jets, we see that gluon jets (right panel) have a larger fraction of soft radiation. On the other hand, the hard, collinear radiation region of the Lund diagram is shown to reduce in its significance for quenched jets. As we discussed in Figures~\ref{fig:comp_z}, \ref{fig:comp_rg} and \ref{fig:comp_subjet_m}, jet cores are also modified in PbPb collisions, and subleading subjets tend to have wider angles and softer momenta. Using the Lund diagram one can directly see the emergence of such qualitative features.
+
+\begin{figure}[t]
+	   \centering
+	   \includegraphics[width=0.9\textwidth]{plots/Individual_LundDiagrams_zrel_hardBranch.pdf}
+	   \caption{Lund diagrams for branches in the hard branch after the soft-drop procedure with $z<z_{\rm cut}=0.1$ for quark (left) and gluon (right) jets in pp (top) and central PbPb collisions in \textsc{Jewel}. See text for the definition of the axes.}
+\label{fig:Lund_hard}
+\end{figure}
+
+We can also study the effect of soft-drop using the Lund diagrams. Figure~\ref{fig:Lund_bkg} shows the Lund diagrams for quark (left) and gluon (right) jets in pp and PbPb collisions, with only the branchings right up to the one defining the $z_g$ and $r_g$ observables. That is, Figure~\ref{fig:Lund_bkg} corresponds to radiation that is dropped in the soft-drop procedure. Note the strict cutoff of $z < z_{\rm cut} = 0.1$ in the Lund diagrams. We see that a large portion of soft, wide-angle radiation is isolated from the hard, collinear core. The bottom right panel of Figure~\ref{fig:Lund_bkg} with quenched gluon jets shows the maximum density of soft, wide angle radiation. These soft jet constituents near the jet boundary are precisely the ones that contribute to the modification of the jet shape in \jw \cite{KunnawalkamElayavalli:2017hxo}. Within the framework of this diagrammatic representation, one can also examine the harder branch after the soft-drop procedure and Figure~\ref{fig:Lund_hard} shows the corresponding Lund diagram. We see that the vacuum structure starts to emerge in the hard branch of soft-drop PbPb jets. However, soft-drop still can not remove all the soft radiation within the hard branch in PbPb collisions. A similar observation was made in \cite{Hoang:2017kmk} that hard branchings can ``protect" soft radiation from being dropped. This is shown by the enhanced, wide angle radiation, even though now its angular scale has significantly reduced. The radiation can be due to correlated medium responses but is often removed with a statistical treatment of background in experiments.
+
 \section{Quark and Gluon Jet Modification and Discrimination}
 \label{sec:results}
 
-In the previous section we discussed jet representations using multiple, physics-motivated variables, jet images and telescoping deconstruction, and we showed how individual observables can be used to highlight the differences between quark jets and gluon jets, as well as between jets in proton-proton and heavy ion collisions. In this section we will use these information collectively and exhaustively in the study of jet modification and quark gluon discrimination.
+In the previous section we discussed jet representations using multiple, physics-motivated variables, jet images, telescoping deconstruction and Lund diagrams, and we showed how individual observables can be used to highlight the differences between quark jets and gluon jets, as well as between jets in proton-proton and heavy ion collisions. In this section we will use these information collectively and exhaustively in the study of jet modification and quark gluon discrimination.
 
 For quark gluon discrimination, the performances are shown using Receiver Operating Characteristic (ROC) curves which plot the gluon jet efficiency or fake rate as a function of the quark jet efficiency or purity. Each ROC curve is labeled with the corresponding area under the curve (auc). Note that a smaller auc corresponds to a better performance, with larger values of quark purity and smaller values of gluon fake rate.
 
@@ -328,45 +366,7 @@ In order to have a fair comparison between jets in pp and PbPb collisions (and t
 
 For a given jet flavor, i.e. quark or gluon jets, one can also study with the aforementioned methods, how the medium modifies jets by comparing vacuum jets with quenched jets in the context of proton-heavy ion jet discrimination. Figure~\ref{fig:ROC_qq_gg} shows the ROC curves plotting the PbPb jet efficiency as a function of the pp jet efficiency, for discriminating quark jets (top panel) or gluon jets (bottom panel) in pp and PbPb collisions using physics-motivated variables, jet images and telescoping deconstruction. We see huge differences between jets in pp and \jw PbPb collisions. All the methods perform significantly better in the task of identifying if a jet is quenched or not, compared to quark gluon discrimination. Therefore we plot the ROC curves using the log scale in the $y$-axis. We observe that the increase of the pixel multiplicity is a key feature in identifying quenched jets, with the DCNN performs slightly better than the MLP. The better performance in the proton-heavy ion jet discrimination for gluon jets (bottom panel of Figure~\ref{fig:ROC_qq_gg}) suggests that gluon jets are modified more significantly than quark jets due to medium-induced quenching.
 
-From our comprehensive comparisons of quark v.s. gluon jets, as well as comparing vacuum v.s. quenched jets, we can qualitatively understand the effects of quenching as implemented in the \jw Monte Carlo. Quenched jets end up with significantly more jet constituents which are distributed away from the jet axis, resulting in the saturation of the TD classification performance at the T1 order. This modification appears to affect gluon jets significantly more than quark jets in \jw since a gluon jet, with its larger particle multiplicity and wider parton shower, can interact with a larger number of scattering centers leading to broader and more quenched jets. In the next section we will employ the use of another jet representation, the Lund Diagram, to illuminate the differences between quark and gluon jets, as well as jets in pp and PbPb collisions
-
-\section{Quark and Gluon Jets in Lund Diagrams}
-\label{sec:lund}
-
-\begin{figure}[t]
-	\centering
-	\includegraphics[width=0.9\textwidth]{plots/Individual_LundDiagrams_zrel.pdf}
-	\caption{Lund diagrams for quark (left) and gluon jets (right) in pp (top) and central PbPb collisions in \textsc{Jewel}. See text for the definition of the axes.}
-\label{fig:Lund_full}
-\end{figure}
-
-Each jet observable is defined as a function of the constituent momenta and angles from jet axes so as to probe the entire jet substructure with a single number. One can choose a set of jet observables to be a representation of jets, and we discussed previously several approaches that faithfully encode the jet information. In this section we will use the Lund diagram~\cite{Andersson1989} associated with the Cambridge/Aachen clustering tree structure as another jet representation. As we will see, the Lund diagram directly records the branching kinematics along the hard branches in the C/A clustering tree in terms of longitudinal momentum fraction $z$ of the soft branch and the angular separation $\Delta R$ between the two branches. The Lund diagram is then a two-dimensional histogram of variables $\ln (R/\Delta R)$ and $\ln z(\Delta R/R)$ where $R$ is the jet radius used in jet reconstruction. The variables are chosen such that the Lund diagram is uniform in the fixed strong coupling constant limit for jets in pp collisions due to the infrared structure of QCD and as such, they have been shown to be useful in distinguishing between QCD and boosted heavy particle jets \cite{Salam:2016yht}.
-
-Given a jet reconstructed using the anti-$k_{t}$ algorithm with $R = 0.4$, the procedure of creating a Lund diagram is as follows:
-\begin{itemize}
-	\item Recluster the jet using the C/A algorithm
-	\item Start from the root of the tree and move along the hard branches. At each branching, construct the momentum fraction of the soft branch $z=\min(p_{T_1},p_{T_2})/(p_{T_1}+p_{T_2})$ and the angular distance between the two branches $\Delta R = \sqrt{\Delta \eta^2_{1, 2}+\phi^2_{1, 2}}$
-	\item Fill in the Lund diagram for each branching
-	\item Continue along the subsequent hard branches until reaching only one particle
-\end{itemize}
-
-\begin{figure}[t]
-	\centering
-	\includegraphics[width=0.9\textwidth]{plots/Individual_LundDiagrams_zrel_background.pdf}
-	\caption{Lund diagrams for branches removed in the soft-drop procedure with $z<z_{\rm cut}=0.1$ for quark (left) and gluon (right) jets in pp (top) and central PbPb collisions in \textsc{Jewel}. See text for the definition of the axes.}
-\label{fig:Lund_bkg}
-\end{figure}
-
-In the Lund diagram, wide angle, soft radiation populates close to the $y$-axis, while collinear, hard radiation is along the diagonal (with the negative slope). Figure~\ref{fig:Lund_full} shows the Lund diagrams for quark (left) and gluon (right) jets in pp (top) and PbPb (bottom) collisions in \textsc{Jewel}. We see a significantly enhanced region close to the $y$-axis in PbPb collisions that corresponds to increased wide angle, soft radiation in quenched jets. Comparing quark to gluon jets, we see that gluon jets (right panel) have a larger fraction of soft radiation. On the other hand, the hard, collinear radiation region of the Lund diagram is shown to reduce in its significance for quenched jets. As we discussed in Figures~\ref{fig:comp_z}, \ref{fig:comp_rg} and \ref{fig:comp_subjet_m}, jet cores are also modified in PbPb collisions, and subleading subjets tend to have wider angles and softer momenta. Using the Lund diagram one can directly see the emergence of such qualitative features.
-
-\begin{figure}[t]
-	   \centering
-	   \includegraphics[width=0.9\textwidth]{plots/Individual_LundDiagrams_zrel_hardBranch.pdf}
-	   \caption{Lund diagrams for branches in the hard branch after the soft-drop procedure with $z<z_{\rm cut}=0.1$ for quark (left) and gluon (right) jets in pp (top) and central PbPb collisions in \textsc{Jewel}. See text for the definition of the axes.}
-\label{fig:Lund_hard}
-\end{figure}
-
-We can also study the effect of soft-drop using the Lund diagrams. Figure~\ref{fig:Lund_bkg} shows the Lund diagrams for quark (left) and gluon (right) jets in pp and PbPb collisions, with only the branchings right up to the one defining the $z_g$ and $r_g$ observables. That is, Figure~\ref{fig:Lund_bkg} corresponds to radiation that is dropped in the soft-drop procedure. Note the strict cutoff of $z < z_{\rm cut} = 0.1$ in the Lund diagrams. We see that a large portion of soft, wide-angle radiation is isolated from the hard, collinear core. The bottom right panel of Figure~\ref{fig:Lund_bkg} with quenched gluon jets shows the maximum density of soft, wide angle radiation. These soft jet constituents near the jet boundary are precisely the ones that contribute to the modification of the jet shape in \jw \cite{KunnawalkamElayavalli:2017hxo}. Within the framework of this diagrammatic representation, one can also examine the harder branch after the soft-drop procedure and Figure~\ref{fig:Lund_hard} shows the corresponding Lund diagram. We see that the vacuum structure starts to emerge in the hard branch of soft-drop PbPb jets. However, soft-drop still can not remove all the soft radiation within the hard branch in PbPb collisions. A similar observation was made in \cite{Hoang:2017kmk} that hard branchings can ``protect" soft radiation from being dropped. This is shown by the enhanced, wide angle radiation, even though now its angular scale has significantly reduced. The radiation can be due to correlated medium responses but is often removed with a statistical treatment of background in experiments.
+From our comprehensive comparisons of quark v.s. gluon jets, as well as comparing vacuum v.s. quenched jets, we can qualitatively understand the effects of quenching as implemented in the \jw Monte Carlo. Quenched jets end up with significantly more jet constituents which are distributed away from the jet axis, resulting in the saturation of the TD classification performance at the T1 order. This modification appears to affect gluon jets significantly more than quark jets in \jw since a gluon jet, with its larger particle multiplicity and wider parton shower, can interact with a larger number of scattering centers leading to broader and more quenched jets. %In the next section we will employ the use of another jet representation, the Lund Diagram, to illuminate the differences between quark and gluon jets, as well as jets in pp and PbPb collisions
 
 \section{Conclusions}
 \label{sec:conc}
