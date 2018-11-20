@@ -30,6 +30,8 @@ With reference to the referee’s comments that it is not clear that TD systemat
 
 One of the main reasons why we showed performance plots for discriminating between quenched and unquenched jets is to study the effect of quenching between q vs g jets as implemented in JEWEL. As we mentioned in the paper and shown in Figure 17, all the methods showcase better performance for differentiating quenched gluon jet from an unquenched gluon jet as opposed to quark jets, leading to our conclusion that gluon jets are further modified. We have edited the text to better reflect on a use case for this particular study.  
 
+Regarding the detail of our Neural Networks, the last paragraphs of section 3.1 and 3.2 detail the corresponding network architecture with the necessary details. 
+
 It is a qualitative feature of JEWEL-simulated heavy ion collisions that the q-g discrimination performance decreases from pp to AA. We are actively invested in studying how other jet quenching models and calculations reflect in our methods. Such a study offers us to the opportunity to solve the inverse problem of mapping from jet modifications to the inner working of jet quenching using a consistent framework that we have introduced in this paper. 
 
 
