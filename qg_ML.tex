@@ -130,7 +130,7 @@ To emulate finite detector effects on the jet angular resolution, we discretize 
 	\item with discretization but without background subtraction
 	\item with discretization and the GridSub \cite{KunnawalkamElayavalli:2017hxo} background subtraction.
 \end{itemize}
-For jets in proton-proton collisions, we use the sets of jet samples with and without discretization. In experiments, the fluctuating, underlying event background is subtracted via specific background subtraction techniques. Since \jw does not generate full underlying events in quenched samples, we can not directly apply those background subtraction methods. With the application of the grid subtraction (GridSub) technique, the collection of jets in \jw represent ideally subtracted jets in the experiment. This enables us to focus on and highlight the effects of jet quenching, as opposed to additional, nontrivial smearing effects.
+For jets in proton-proton collisions, we use the sets of jet samples with and without discretization. In experiments, the fluctuating, underlying event background is subtracted via specific background subtraction techniques. Since \jw does not generate full underlying events in quenched samples, we can not directly apply those background subtraction methods. With the application of the grid subtraction (GridSub) technique, the collection of jets in \jw represent ideally subtracted jets in the experiment. This enables us to focus on and highlight the effects of jet quenching, as opposed to additional, nontrivial smearing effects due to the fluctuating underlying event. 
 
 \section{Quark and Gluon Jet Substructure}
 \label{sec:qg}
@@ -356,12 +356,22 @@ Figure~\ref{fig:ROC_pp} and Figure~\ref{fig:ROC_pbpb} show ROC curves for quark 
 	\label{fig:ROC_TD3_grid}
 \end{figure}
 
-In order to have a fair comparison between jets in pp and PbPb collisions (and to directly compare with data), we apply the grid discretization for jets in both pp and PbPb collisions, the later with the specific GridSub background subtraction technique, and compare with various TD orders in Figure~\ref{fig:ROC_TD_grid}. We clearly see the performance drops in PbPb collisions, along with a significant reduction in the performance improvement from T1 to $\rm T1+T2$ in PbPb collisions. This suggests that the information carried in higher-order subleading subjets can be washed out in \jw heavy ion collisions due to the medium interactions. In Figure~\ref{fig:ROC_TD3_grid} we plot the ROC curves for TD at the T3 order and compare jets with or without $\eta-\phi$ discretization and background subtraction. Since the radius scan in TD respects the $\eta-\phi$ discretization resolution, we don't see the change of the TD performance using particle jets or grid jets. On the other hand, the performance drops very slightly (change in auc of $0.01$) with the background subtraction performed. This suggests that some intrinsic differences between quark jets and gluon jets are possibly removed in the subtraction~\footnote{Underlying events and their subtractions in experiments can both influence and introduce jet substructure features. Such effects can only be studied with full heavy ion event simulations, which we leave for future studies.}.
+In order to have a fair comparison between jets in pp and PbPb collisions (and to directly compare with data), we apply the grid discretization for jets in both pp and PbPb collisions, the later with the specific GridSub background subtraction technique, and compare with various TD orders in Figure~\ref{fig:ROC_TD_grid}. We clearly see the performance drops in PbPb collisions, along with a significant reduction in the performance improvement from T1 to $\rm T1+T2$ in PbPb collisions. This suggests that the information carried in higher-order subleading subjets can be washed out in \jw heavy ion collisions due to the medium interactions. In Figure~\ref{fig:ROC_TD3_grid} we plot the ROC curves for TD at the T3 order and compare jets with or without $\eta-\phi$ discretization and background subtraction. Since the radius scan in TD respects the $\eta-\phi$ discretization resolution, we don't see the change of the TD performance using particle jets or grid jets. On the other hand, the performance drops very slightly (change in auc of $0.01$) with the background subtraction performed. This suggests that some intrinsic differences between quark jets and gluon jets are possibly removed in the subtraction.
+
+
+\begin{figure}[h]
+	\centering
+        \includegraphics[width=0.8\textwidth]{Fig17}
+	\caption{ROC curves of quark v.s. gluon efficiency highlighting the effect of the embedded \textsc{Hydjet} background. The dashed curves represent the embedded event in comparison to the solid curves which show the vacuum events. The different colored curves correspond to various classification models studied in this paper.}
+	\label{fig:ROC_qvsg_wHydjet}
+\end{figure}
+
+The fluctuating underlying event and their subtraction in experiment can both influence and introduce features in jet substructure. We employ the embedding technique which is used in almost all experiments to estimate the effect of these fluctuations on a event by event basis. We take an unbiased heavy ion event produced by the \textsc{Hydjet}~\cite{Lokhtin:2008xi} MC for most central collisions ($0-5\%$) and embed the particles produced by \jw (both vacuum and in-medium) together. In this embedded event, we have included the effect of the uncorrelated background to jets. Since the \jw events with jet quenching are for a centrality window of $0-20\%$, this underlying event presents an over estimate of the background which we take as an upper bound for the effects due to the underlying event. In order to extract jets from these embedded events, we perform constituent subtraction~\cite{Berta:2014eza} which reduces the contribution of the background to the jet and its constituents. The effect of including the heavy ion underlying event is shown in Figure~\ref{fig:ROC_qvsg_wHydjet} in the dashed curves having an overall reduction in classification performance as shown by a reduced auc for both vacuum jets and quenched jets but we would like to note that classification is still experimentally viable albeit with reduced efficiency. Further studies of the exact nature of the background influence on jet substructure via detector simulations are reserved for future publications.   
 
 \begin{figure}[t]
 	   \centering
-	   \includegraphics[width=0.62\textwidth]{Fig17a}
-	   \includegraphics[width=0.62\textwidth]{Fig17b}
+	   \includegraphics[width=0.62\textwidth]{Fig18a}
+	   \includegraphics[width=0.62\textwidth]{Fig18b}
 	   \caption{ROC curves of pp-jet v.s. PbPb-jet efficiency for quark (top panel) and gluon (bottom panel) jets with grid discretization. The different colored curves correspond to various classification models studied in this paper.}
 \label{fig:ROC_qq_gg}
 \end{figure}
@@ -403,12 +413,12 @@ We aim to encapsulate relevant physics information in simple, physical observabl
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=.32\columnwidth]{Fig18a}
-\includegraphics[width=.32\columnwidth]{Fig18b}
-\includegraphics[width=.32\columnwidth]{Fig18c}
-\includegraphics[width=.32\columnwidth]{Fig18d}
-\includegraphics[width=.32\columnwidth]{Fig18e}
-\includegraphics[width=.32\columnwidth]{Fig18f}
+\includegraphics[width=.32\columnwidth]{Fig19a}
+\includegraphics[width=.32\columnwidth]{Fig19b}
+\includegraphics[width=.32\columnwidth]{Fig19c}
+\includegraphics[width=.32\columnwidth]{Fig19d}
+\includegraphics[width=.32\columnwidth]{Fig19e}
+\includegraphics[width=.32\columnwidth]{Fig19f}
 \caption{\label{fig:tjet}(Top row) The TD of a top jet at T1 (left panel), T2 (middle panel) and T3 (right panel) orders. The crosses are the Winner-Take-All $k_t$ axes. The straight lines are the exclusive subjet boundaries. Particles are sized according to their transverse momenta. (Bottom row) The subjet masses at T1 (left panel), T2 (middle panel), and T3 (right panel) orders as the telescoping radius $R_T$ is varied, corresponding to the region of the same color in the top row. The presence of the $W$ in the top jet can be clearly seen at T1 and T2 orders by the plateau of the red line beginning around $R_T=0.3$.}
 \end{figure}
 
@@ -434,9 +444,9 @@ To demonstrate the efficacy of TD in capturing the full jet information, we appl
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=.32\columnwidth]{Fig19a}
-\includegraphics[width=.32\columnwidth]{Fig19b}
-\includegraphics[width=.32\columnwidth]{Fig19c}
+\includegraphics[width=.32\columnwidth]{Fig20a}
+\includegraphics[width=.32\columnwidth]{Fig20b}
+\includegraphics[width=.32\columnwidth]{Fig20c}
 \caption{\label{ROCs}ROC curves for the DNNs trained on cumulant telescoping deconstruction observables up to T1 through T4 orders and the jet image method using CNNs for quark/gluon discrimination (left panel), boosted $W$ (middle panel) and top (right panel) tagging. The T$N$ performance approximately saturates at T2 (quark/gluon), T1 ($W$ tagging), and T2 (top tagging) orders.}
 \end{figure}
 
@@ -447,12 +457,12 @@ A neural network consisting of three dense layers with 100 nodes each is trained
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=.32\columnwidth]{Fig20a}
-\includegraphics[width=.32\columnwidth]{Fig20b}
-\includegraphics[width=.32\columnwidth]{Fig20c}
-\includegraphics[width=.32\columnwidth]{Fig20d}
-\includegraphics[width=.32\columnwidth]{Fig20e}
-\includegraphics[width=.32\columnwidth]{Fig20f}
+\includegraphics[width=.32\columnwidth]{Fig21a}
+\includegraphics[width=.32\columnwidth]{Fig21b}
+\includegraphics[width=.32\columnwidth]{Fig21c}
+\includegraphics[width=.32\columnwidth]{Fig21d}
+\includegraphics[width=.32\columnwidth]{Fig21e}
+\includegraphics[width=.32\columnwidth]{Fig21f}
 \caption{\label{masses}The heavy subjet mass distributions at T1 (left panels), T2 (middle panels), and T3 (right panels) orders for multiple subjet radii $R_T$ of top jets (top row) and QCD background jets (bottom row). The presence of the $W$ in top jets is evident by the peaks at the $W$ mass at T1 and T2 orders. At T3 order, the heavy subjet mass distributions are QCD-like and are narrower (more quark-like) in top subjets than the wider (more gluon-like) QCD subjets. These features highlight the ability of the telescoping deconstruction to probe subjet substructure.}
 \end{figure}
 
