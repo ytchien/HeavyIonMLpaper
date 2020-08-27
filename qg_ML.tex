@@ -172,7 +172,7 @@ Figure~\ref{fig:jetdistributons_pp_pbpb} shows the distributions of the aforemen
 
 It is important to note that these observables are sensitive to the jet clustering algorithm, the minimum \pt ~cutoff of jet constituents and the background subtraction procedures employed. In order to facilitate a direct comparison between experimental data and Monte Carlo simulations, one has to either unfold the detector resolution from these observables or perform Monte Carlo simulations with the appropriate detector response. The unfolding procedure for jet observables increases in dimensionality and complexity as the correlations among observables become strong. For example, the jet mass will have to be unfolded with a 4-dimensional response matrix consisting of the generated and reconstructed jet \pt ~and mass.
 
-We combine the five jet substructure observables using a multivariate model implemented in Keras \cite{keras}, with two hidden dense layers of 10 nodes each. We use the rectified linear unit (ReLU) \cite{nair2010rectified} and sigmoid activation functions for the dense layers and the output layer, respectively. The model training utilizes the Adam optimizer \cite{adam} and the binary cross entropy loss function. We perform cross validation using Monte Carlo samples which are split into two random halves for training and testing.
+We combine the five jet substructure observables using a multivariate model implemented in Keras \cite{keras}. The details of the model description are given in Appendix~\ref{app:models}. 
 
 \subsection{Jet Image}
 \label{sec:image}
@@ -191,7 +191,7 @@ The multivariate analysis discussed previously is a constructive approach to col
 
 Figure~\ref{fig:qgjetimages} shows the average quark (left) and gluon (right) jet images in pp (top) and central PbPb (bottom) collisions. The color of each image pixel represents the transverse momentum deposited in the pixel. We see a broader energy distribution around central pixels for gluon jets as compared to quark jets in pp collisions, with both flavors exhibiting significantly broader distributions for jets in PbPb collisions. Note that in experiment, it may be very challenging to directly analyze jet images due to detector and measurement considerations. Here we mainly use the jet image approach as a useful and state-of-the-art comparison of the classification performance.
 
-A deep convolutional neural network is implemented in Keras with the TensorFlow \cite{DBLP:journals/corr/AbadiBCCDDDGIIK16} backend. The neural network model consists of three convolution layers of sequentially reducing sizes, each with 8 filters followed by a max-pooling layer. The convolution layers use a hyperbolic tangent activation function, and the output layer uses a sigmoid activation function. The output layer is preceded by three layers, a dropout layer with a rejection score of 0.20, a dense layer with 20 nodes and an additional dropout layer with a reduced rejection score of 0.10. The additional dropout layer helps filtering less important features from previous layers and thus increases the speed and efficiency of the model training. The model is trained using the Adam optimizer with binary cross entropy loss function.
+A deep convolutional neural network is implemented in Keras~\cite{DBLP:journals/corr/AbadiBCCDDDGIIK16}. The neural network architecture and the corresponding activation functions are detailed in the appendix. 
 
 \subsection{Telescoping Deconstruction}
 \label{sec:tjet}
@@ -394,15 +394,31 @@ The authors are grateful to Patrick Komiske and Eric Metodiev for collaborating 
 
 
 
-
-
-
-
-
-
 \newpage
 \appendix
 \section*{Appendix}
+
+\section{Description of the MLP and CNN network architectures}
+\label{app:models}
+The MLP utilized in this classification analysis utilizes two hidden dense layers of 10 nodes each as shown in Fig~\ref{fig:mlp}. We use the rectified linear unit (ReLU) \cite{nair2010rectified} and sigmoid activation functions for the dense layers and the output layer, respectively. The model training utilizes the Adam optimizer \cite{adam} and the binary cross entropy loss function. We perform cross validation using Monte Carlo samples which are split into two random halves for training and testing.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.6\columnwidth]{FigMLP.png}
+\caption{Schematic of the MLP utilized for physics observables where the two hidden layers are shown and particular nodes that are not linked are dropped (shown as an example) during training.}
+\label{fig:mlp}
+\end{figure}
+
+The CNN architecture consists of three 48-filter convolutional layers with filter sizes of $8\times 8$, $4\times 4$, and $4\times 4$ followed by a 128-unit dense layer and a 2-unit softmaxed output layer. The network architecture is schematically shown in Fig~\ref{fig:dcnn}. A $2\times 2$ maxpooling is performed after each convolutional layer with a stride length of 2. The dropout rate was taken to be 0.1 for all layers. All neural networks are implemented using the Python deep learning library Keras~\cite{keras} with the Theano backend~\cite{bergstra2010theano}. Rectified linear unit (ReLU) activation functions~\cite{nair2010rectified} and He-uniform model weight initialization~\cite{heuniform} are used. The networks are trained using the Adam algorithm~\cite{adam} with a learning rate of $10^{-3}$ and a batch size of 256 for 50 epochs with a patience parameter of 8, and the best model is selected based on validation set performance.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=.8\columnwidth]{FigDCNN_wolabels.png}
+\caption{Schematic of the DCNN with maxpooling layers (not shown) located in-between each convolution layer. The output layer for classification is taken as a result of a dense layer (not shown).}
+\label{fig:dcnn}
+\end{figure}
+
+
 \section{Probing subjet energy flows with telescoping deconstruction}
 
 In this Appendix, we present the framework of telescoping deconstruction (TD) to systematically probe aspects of jet formation via its fragmentation basis. By scanning around dominant energy flows with multiple angular resolutions \cite{Chien:2013kca,Chien:2014hla}, one can efficiently quantify the radiation pattern. We demonstrated the use of the framework in the main text for quark/gluon discrimination and the study of medium modifications in heavy ion collisions. Here, to show the generality of TD we apply the method to different problems at the LHC: identifying and tagging boosted quark/gluon jets,  boosted $W$ and tops at the LHC. Crucially, the framework involves a fixed-order organization of individual observables which allows systematically improvable jet studies. Explicit examples of the $W$ isolation \cite{Chien:2017xrb} and exposing the $W$ boson in a top jet are presented. This highlights the physically meaningful nature of each TD observables and demonstrates their collective power as a representation.
@@ -453,7 +469,7 @@ To demonstrate the efficacy of TD in capturing the full jet information, we appl
 Since $W$ and top tagging are mass resonance searches where the jet mass is the most natural and powerful discriminating variable, we disentangle mass information to probe how much additional information can be exploited for tagging. Information from the hard process about the overall jet kinematics is eliminated by translating each jet to a frame where $y$ and $\phi$ of the jet are both zero. For $W$ and top tagging, $W$ jets were generated by $pp\to WW (\to \text{hadrons})$ and top jets were generated by $pp\to t\bar t (\to \text{hadrons})$, with background jets taken from QCD dijets. Final-state non-neutrino particles are clustered into $R=1.0$ jets with rapidity $|y|<1.5$. Signal and background jets identically populate a five-bin $1/p_T^4$ histogram in transverse momentum and a three-bin uniform histogram in mass between 75 GeV and 85 GeV for $W$ tagging and 160 GeV to 180 GeV for top tagging. Telescoping subjets are constructed with $R_T$ in steps of 0.05 between 0.05 and 0.4 in quark/gluon discrimination, and between 0.05 to 0.95 in $W$ and top tagging. %Reducing the number of radius sampling is left for future work.
 For each problem, 200k events are generated for signal and background, with 10\% used for validation, 15\% for testing, and the remaining 75\% for training.
 
-A neural network consisting of three dense layers with 100 nodes each is trained on the telescoping deconstruction observables up to T$N$ order. The training can be performed on a typical laptop CPU in fewer than five minutes. One could also use boosted decision trees (BDT) to combine variables \cite{Chien:2017xrb}. We compare the performance of our method to jet images using a CNN as done in the main text. The jet images are size $33\times 33$ and span a $2R\times 2R$ patch of the rapidity-azimuth plane with the intensity of each pixel corresponding to the total $p_T$ of particles in the pixel. The jet images are pre-processed and standardized according to the procedure in \Ref{Komiske:2016rsd}. The CNN architecture consists of three 48-filter convolutional layers with filter sizes of $8\times 8$, $4\times 4$, and $4\times 4$ followed by a 128-unit dense layer and a 2-unit softmaxed output layer. A $2\times 2$ maxpooling is performed after each convolutional layer with a stride length of 2. The dropout rate was taken to be 0.1 for all layers. All neural networks are implemented using the Python deep learning library Keras~\cite{keras} with the Theano backend~\cite{bergstra2010theano}. Rectified linear unit (ReLU) activation functions~\cite{nair2010rectified} and He-uniform model weight initialization~\cite{heuniform} are used. The networks are trained using the Adam algorithm~\cite{adam} with a learning rate of $10^{-3}$ and a batch size of 256 for 50 epochs with a patience parameter of 8, and the best model is selected based on validation set performance.
+A neural network consisting of three dense layers with 100 nodes each is trained on the telescoping deconstruction observables up to T$N$ order. The training can be performed on a typical laptop CPU in fewer than five minutes. One could also use boosted decision trees (BDT) to combine variables \cite{Chien:2017xrb}. We compare the performance of our method to jet images using a CNN as done in the main text. The jet images are size $33\times 33$ and span a $2R\times 2R$ patch of the rapidity-azimuth plane with the intensity of each pixel corresponding to the total $p_T$ of particles in the pixel. The jet images are pre-processed and standardized according to the procedure in \Ref{Komiske:2016rsd}. 
 
 \begin{figure}[t]
 \centering
@@ -471,6 +487,7 @@ The performance of the trained models can be captured in a slightly different RO
 For top tagging, there is a significant increase in performance from T1 to T2 order in Figure~\ref{ROCs}, and the performance saturates beyond this order due to the sensitivity of T2 to the $W$ in top jets. For $W$ tagging, T1 order is sufficient to achieve most of the classification performance, which unambiguously confirms the $W$ isolation feature in the boosted regime compared to the QCD background~\cite{Chien:2017xrb}. Clearly, the T1 order probes the depletion of the radiation at large angles within $W$ jets, whereas the QCD background jets continue to acquire mass from radiation at large angles. For quark/gluon discrimination, there is a significant increase in performance from T1 to T2 and a smaller increase from T2 to T3 where the performance saturates, suggesting the usefulness of T2 subjet substructure and its sensitivity to subjet flavors. This confirms that the T$N$ expansion converges efficiently and TD faithfully represents the jet information.
 
 In addition to being a useful jet representation, the TD allows physical information to be easily extracted. Figure~\ref{masses} shows the heavy subjet mass \cite{Chien:2010kc} distributions at T1, T2, and T3 orders, scanned over different telescoping radii $R_T$, for top jets and their QCD background. As $R_T$ is increased, the top jet T1 subjet mass distributions transition from QCD-like, to peaked at the $W$ mass, to peaked at the top mass. In contrast, the background QCD jets do not peak at the $W$ mass for any $R_T$ and transition from QCD-like to more top-like as they acquire mass at larger radii. The top jets at T2 order clearly and automatically show the $W$ peak which is completely absent in the background distributions. At T3 order, both top and background distributions appear QCD-like, with the wider background distributions due to the prevalence of gluon subjets. Thus we find that TD extracts relevant and significant subjet substructure information in order to efficiently perform at its task, i.e. quark jet v.s. gluon jet or boosted $W$/top jets v.s. QCD jets.
+
 
 \bibliographystyle{JHEP3}
 \bibliography{qg_ML_ref}
